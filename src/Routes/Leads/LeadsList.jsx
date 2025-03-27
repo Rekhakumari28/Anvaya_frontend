@@ -15,6 +15,7 @@ function LeadsList() {
         <div className='col-md-9 mt-5 pt-5'>
             <LeadListComponent/>
             <Filters />
+            <div><Link >Add New Lead</Link></div>
         </div>
         
       </div>

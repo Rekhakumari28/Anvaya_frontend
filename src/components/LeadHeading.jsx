@@ -13,7 +13,7 @@ function LeadHeading({leadData}) {
         </div>
       ) : location.pathname.includes('/leadDetails/') ? (
         <div className="py-4 text-center border fs-4 bg-light fixed-top">
-          Lead Management: [{leadData?.name}]
+          Lead Management: {leadData?.name}
         </div>
       )
       

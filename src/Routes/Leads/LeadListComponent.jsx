@@ -1,69 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-
-export let leadList=[
-  {
-      "_id":1,
-      "name": "Acme Corp1",
-      "source": "Referral",
-      "salesAgent": {
-          "name": "John Doe",
-          "email": "john@example.com"
-        }
-        ,   
-      "status": "New",
-      "tags": ["High Value", "Follow-up"],
-      "timeToClose": 30,
-      "priority": "High"
-    },
-    {
-      "_id":2,
-      "name": "Acme Corp2",
-      "source": "Referral",
-      "salesAgent": {
-
-          "name": "Alex Doe",
-          "email": "Alex@example.com"
-        }
-        ,  
-      "status": "Contacted",
-      "tags": ["High Value", "Follow-up"],
-      "timeToClose": 30,
-      "priority": "High"
-    },
-    
-    {
-      "_id":3,
-      "name": "Acme Corp3",
-      "source": "Referral",
-      "salesAgent": {
-
-          "name": "Alex Doe",
-          "email": "Alex@example.com"
-        }
-        ,  
-      "status": "Qualified",
-      "tags": ["High Value", "Follow-up"],
-      "timeToClose": 30,
-      "priority": "High"
-    }
-    
-    
-]
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { fetchLeads } from "../../features/leadsSlice";
+import Filters from "../../components/Filters";
 
 function LeadListComponent() {
- 
+  const dispatch = useDispatch();
+  const leadList = useSelector((state) => {
+    return state.leads.leads;
+  });
+
+  useEffect(() => {
+    dispatch(fetchLeads());
+  }, []);
+
   return (
-    <div className='border rounded p-4 m-2'>
+    <div className="border rounded p-4 m-2">
       <h3 className="text-center">Lead Overview</h3>
-      <hr />      
-        {leadList.map(lead=><div   key={lead._id}>
-            [{lead.name}] - [{lead.status}] - [{lead.salesAgent.name}]
-           
-        </div>)}        
-      
+      <hr />
+      {leadList?.length > 0 &&
+        leadList?.map((lead) => (
+          <div key={lead._id}>
+            {lead.name} - {lead.status} - {lead.salesAgent.name}
+          </div>
+        ))}
     </div>
-  )
+  );
 }
 
-export default LeadListComponent
+export default LeadListComponent;

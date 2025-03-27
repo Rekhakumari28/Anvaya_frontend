@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { addSalesAgentAsync } from "../../features/salesAgentSlice";
+import { useDispatch } from "react-redux";
 
 function AddAgent() {
   const [agentName, setAgentName] = useState("");
   const [email, setEmail] = useState("");
+
+const dispatch = useDispatch()  
 
   const handleSubmitAgentForm = (event) => {
     event.preventDefault();
@@ -13,11 +17,12 @@ function AddAgent() {
       email: email,
     };
     if (dotIndex > atIndex && atIndex > 0) {
-      console.log(agentData);
+      dispatch(addSalesAgentAsync(agentData));
+      console.log(agentData)
     } else {
       console.log("Email is not valid");
     }
-  };
+  };  
 
   return (
     <div className="border rounded container mt-4">

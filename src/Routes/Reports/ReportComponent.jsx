@@ -1,17 +1,36 @@
-import React from 'react'
+import React from "react";
+
+import { PieChart } from "./LeadsClosedAndPipelinePai.jsx";
+import { BarChart } from "./LeadsClosedByAgentBar.jsx";
+import {LeadsDistributionByStatusPie} from "./LeadsDistributionByStatusPie.jsx";
+
+
 
 function ReportComponent() {
+  
   return (
-    <div className='border rounded p-4 m-2'> 
-      <h4>Report Overview</h4>
+    <div className="border rounded p-4 m-2 text-center">
+      <h2>Report Overview</h2>
+
       <hr />
-      <p>Total Leads closed and in Pipeline: [Pie Chart]</p>
+      <div >
+     
+        <PieChart/>
+      </div>
+
       <hr />
-      <p>Leads Closed by Sales Agent: [Bar Chart]</p>
+      <div >
+       
+        <BarChart/>
+      </div>
+
       <hr />
-      <p>Lead Status Distribution: [Pie Chart or Bar Chart]</p>
+      <div >
+       
+       <LeadsDistributionByStatusPie />
+      </div>
     </div>
-  )
+  );
 }
 
-export default ReportComponent
+export default ReportComponent;

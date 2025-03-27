@@ -4,9 +4,10 @@ function SidebarNav() {
     
   return (
     <>
-    <div className=" pt-5 mt-5 navbar ">
-      <div className="p-3 ms-2 mt-2 border rounded" style={{height: "500px" , width: "100%"}}>
-      <Link to="/"  className="navbar-brand">Dashboard</Link>
+    
+    <div className=" pt-5 mt-4 navbar  " style={{position: "fixed", width: "300px" }}>
+      <div className="p-2 mt-4 ms-2 rounded border " style={{height: "550px" , width: "100%"}}>
+      <h2 className="navbar-brand text-center  pt-2">Dashboard</h2>
     <hr />
       {location.pathname === "/" ? (
           <div className="navbar-nav">        

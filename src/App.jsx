@@ -6,6 +6,7 @@ import LeadsList from "./Routes/Leads/LeadsList";
 import LeadDetailsManagement from "./Routes/LeadDetails/LeadDetailsManagement";
 import SalesAgentManagement from "./Routes/SalesAgents/SalesAgentManagement";
 import Reports from "./Routes/Reports/Reports";
+import AddLeadForm from "./Routes/AddLead/AddLeadForm";
 
 
 
@@ -18,7 +19,8 @@ function App() {
         <Route path="/leadDetails/:leadId" element={<LeadDetailsManagement />}/>
         <Route path="/sales" element={<SalesAgentManagement />} />
         <Route path="/reports" element={<Reports />} />
-       
+       <Route path="/addLead/:leadId" element={<AddLeadForm/>} />
+       <Route path="/addLead" element={<AddLeadForm/>} />
       </Routes>
     </Router>
   );
