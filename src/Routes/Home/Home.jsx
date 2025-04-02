@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./home.css";
+
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import LeadHeading from "../../components/LeadHeading";
@@ -37,11 +37,13 @@ function Home() {
           <div key={index} className="cols">
             <div className="cards card-statusGrouped  ">
               <div className="cards-body ">
+              <strong> {keys}</strong> : {values.length} Leads
                 <Link
+                className="button-primary"
                   to={`/leadsByStatus/${keys}`}
-                  style={{ textDecoration: "none", color: "black" }}
+                  style={{ textDecoration: "none" }}
                 >
-                  <strong> {keys}</strong> : {values.length} Leads
+                  view more
                 </Link>
               </div>
             </div>

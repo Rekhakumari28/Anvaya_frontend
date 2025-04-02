@@ -28,7 +28,7 @@ function SalesAgentListComponent() {
       <div className="rows">
         {agentList.agents?.length > 0 &&
           agentList?.agents?.map((agent) => (
-            <div key={agent._id} className="cols"  style={{ margin: "0 50px 0 100px" }} >
+            <div key={agent._id} className="cols"  style={{ margin: "0 50px 0 30px" }} >
               <Link to={`/leadsBySalesAgent/${agent.name}`} style={{textDecoration:"none"}}>
            <div className="cards"   style={{
               width: "700px",
@@ -36,6 +36,13 @@ function SalesAgentListComponent() {
               padding: "12px 24px 12px 60px",
             }}>
            {agent.name}: {agent.email} | Total Leads: {leads.filter(lead=> lead.salesAgent.name === agent.name).length}
+             <Link
+                           className="button-primary"
+                             to={`/leadsBySalesAgent/${agent.name}`}
+                             style={{ textDecoration: "none", width:"20%" , margin: "0 0 0 60px"}}
+                           >
+                             view more
+                           </Link>
            </div>
            </Link>
             </div>
