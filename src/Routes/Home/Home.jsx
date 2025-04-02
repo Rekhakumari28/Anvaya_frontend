@@ -24,6 +24,7 @@ function Home() {
 
   useEffect(() => {
     dispatch(fetchLeads());
+    dispatch(fetchLeadsByQuery())
   }, []);
 
   useEffect(() => {
@@ -203,6 +204,19 @@ function Home() {
                       }
                     />{" "}
                     Closed
+                  </label>{" "}
+                  <label className="me-5">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      value="All"
+                      name="status"
+                     
+                      onChange={() =>
+                        dispatch(fetchLeads())
+                      }
+                    />{" "}
+                    All
                   </label>{" "}
                 </span>
               </p>
