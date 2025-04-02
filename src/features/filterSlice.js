@@ -38,7 +38,7 @@ export const filterSlice = createSlice({
         builder.addCase(fetchLeadsByQuery.fulfilled, (state,action)=>{
             state.status = "All Leads"
              state.filters = action.payload;
-            console.log(action.payload, "payload")        
+            // console.log(action.payload, "payload")        
         })
         builder.addCase(fetchLeadsByQuery.rejected , (state, action)=>{
             state.status = "error"
@@ -51,7 +51,7 @@ export const filterSlice = createSlice({
         builder.addCase(sortedLeadByPriority.fulfilled, (state,action)=>{
             state.status = "All Leads"
              state.prioritySortedLead = action.payload;
-            console.log(action.payload, "priorityFilterdLead")        
+            // console.log(action.payload, "priorityFilterdLead")        
         })
         builder.addCase(sortedLeadByPriority.rejected , (state, action)=>{
             state.status = "error"
@@ -64,7 +64,7 @@ export const filterSlice = createSlice({
         builder.addCase(sortedLeadByTimeToClose.fulfilled, (state,action)=>{
             state.status = "All Leads"
              state.timeToCloseSortedLead = action.payload;
-            console.log(action.payload, "payload")        
+            // console.log(action.payload, "payload")        
         })
         builder.addCase(sortedLeadByTimeToClose.rejected , (state, action)=>{
             state.status = "error"

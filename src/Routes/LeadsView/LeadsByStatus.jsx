@@ -6,6 +6,7 @@ import SidebarNav from "../../components/SidebarNav";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getGroupedLead } from "../../features/leadsSlice";
+import { sortedLeadByTimeToClose } from "../../features/filterSlice";
 
 function LeadsByStatus() {
   const [filtersAgent, setFiltersAgent] = useState("");
@@ -16,74 +17,49 @@ function LeadsByStatus() {
 
   const statusGrouped = useSelector((state) => {
     return state.leads.statusGrouped.leadsByStatus;
-  }); 
+  });
+
+  const leadsSortedByPriority = useSelector((state) => {
+    return state.filters.prioritySortedLead;
+  });
+
+  const leadsSortedByTimeToClose = useSelector((state) => {
+    return state.filters.timeToCloseSortedLead;
+  });
 
   useEffect(() => {
     dispatch(getGroupedLead());
+    dispatch(sortedLeadByTimeToClose());
   }, []);
 
   const findGroup = Object.entries(statusGrouped)
     .filter(([keys, values]) => keys === status?.status)
     .map((lead) => lead[1]);
 
-    const leadsRemoveDuplicatesAgentName = [...findGroup[0]].reduce(
-      (acc, curr) =>
-        acc.includes(curr.salesAgent?.name)
-          ? acc
-          : [...acc, curr.salesAgent?.name],
-      []
-    );
+  const leadsRemoveDuplicatesAgentName = [...findGroup[0]].reduce(
+    (acc, curr) =>
+      acc.includes(curr.salesAgent?.name)
+        ? acc
+        : [...acc, curr.salesAgent?.name],
+    []
+  );
 
   const filteredLeadsBySalesAgent = findGroup[0]?.filter(
     (lead) => lead.salesAgent?.name === filtersAgent
   );
 
-  const handleSortByPriority = (event) => {
-    let filtered = findGroup[0];
-    // const valueSelected = event.target.value;
-    // const prefix = valueSelected === "Low-High" ? "Low" : "High";
-
-    // filtered = [...filtered]?.sort((firstItem, secondItem) => {
-    //   const aStartsWithPrefix = firstItem.priority.startsWith(prefix);
-    //   const bStartsWithPrefix = secondItem.priority.startsWith(prefix);
-    //   console.log(aStartsWithPrefix, "first");
-    //   console.log(bStartsWithPrefix, "second");
-    //   if (aStartsWithPrefix && !bStartsWithPrefix) {
-    //     return -1;
-    //   }
-    //   if (!aStartsWithPrefix && bStartsWithPrefix) {
-    //     return 1;
-    //   }
-    //   return firstItem.priority.localeCompare(secondItem.priority);
-    // }
-    // );
-
-    filtered = [...filtered]?.sort((first, second) =>
-      first.priority > second.priority
-        ? 1
-        : second.priority - first.priority
-        ? -1
-        : 0
-    );
-    setSortingLead(filtered);
-    setSortingLead(filtered);
-  };
-
+  
   const handleSortByTimeToClose = () => {
-    let filtered = findGroup[0];
-    const sortedByTimeToClose = [...filtered].sort((a, b) => {
-      a.timeToClose - b.timeToClose;
-    });
-    setFilterByCloseTime(sortedByTimeToClose);
+    setFilterByCloseTime(leadsSortedByTimeToClose?.sortByTimeToClose);
   };
 
   const mappingLeads =
     filteredLeadsBySalesAgent?.length > 0
-      ? filteredLeadsBySalesAgent
-      : sortingLead?.length > 0
-      ? sortingLead
-      : filterByCloseTime?.length > 0
-      ? sortingLead
+      ? filteredLeadsBySalesAgent.filter(lead=>lead.status === status.status )      
+      : leadsSortedByPriority?.concatSortedData?.length > 0
+      ? leadsSortedByPriority?.concatSortedData.filter(lead=>lead.status === status.status )
+      : filterByCloseTime
+      ? filterByCloseTime.filter(lead=>lead.status === status.status )
       : findGroup[0];
 
   return (
@@ -129,7 +105,7 @@ function LeadsByStatus() {
                   fontSize: "18px",
                 }}
               >
-                {mappingLeads?.map((lead) => (
+                { mappingLeads?.length > 0 ? mappingLeads?.map((lead) => (
                   <div
                     className="cards"
                     key={lead._id}
@@ -141,7 +117,19 @@ function LeadsByStatus() {
                       to Close: {lead.timeToClose}
                     </div>
                   </div>
-                ))}
+                )) :  findGroup[0]?.map(lead => 
+                  <div
+                    className="cards"
+                    key={lead._id}
+                    style={{ margin: "12px 6px 0 0", width: "100%" }}
+                  >
+                    <div className="cards-body">
+                      <strong>{lead?.name}</strong> | Sales Agent:{" "}
+                      {lead.salesAgent?.name} | Priority: {lead.priority} | Time
+                      to Close: {lead.timeToClose}
+                    </div>
+                  </div>
+                 )  }
               </div>
             </div>
             <div className="sections">
@@ -185,18 +173,24 @@ function LeadsByStatus() {
                 >
                   <select
                     className="form-select mb-3"
-                    onChange={handleSortByPriority}
+                    onChange={(event) =>
+                      dispatch(sortedLeadByPriority(event.target.value))
+                    }
                   >
                     <option>Select Priority</option>
-                    <option value="High-Low">High-Low</option>
                     <option value="Low-High">Low-High</option>
+                    <option value="High-Low">High-Low</option>
                   </select>
                 </span>
-                <span className="cols ">
+                <span
+                  className="cols "
+                  style={{ width: "250px", margin: "6px" }}
+                >
                   <label>
                     {" "}
                     <input
-                      type="radio"
+                      type="checkbox"
+                      className="form-check-input"
                       onChange={handleSortByTimeToClose}
                     />{" "}
                     Time to Close
