@@ -35,7 +35,7 @@ function SalesAgentListComponent() {
               fontSize: "18px",
               padding: "12px 24px 12px 60px",
             }}>
-           {agent.name}: {agent.email} | Total Leads: {leads.filter(lead=> lead.salesAgent.name === agent.name).length}
+           {agent.name}: {agent.email} | Total Leads: {leads.filter(lead=> lead.salesAgent?.name === agent.name).length}
              <Link
                            className="button-primary"
                              to={`/leadsBySalesAgent/${agent.name}`}

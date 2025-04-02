@@ -46,12 +46,12 @@ function LeadListComponent({
         {filterLeadsMapping &&
           filterLeadsMapping.length > 0 &&
           filterLeadsMapping?.map((lead) => (
-            <div key={lead._id} className="cols col-mds">
+            <div key={lead._id} className="cols col-mds" >
               <div className="cards">
                 <div className="cards-body">
                   <h4 className="marginLead">{lead.name}</h4>
                   <p className="marginLead">
-                    Sales Agent: {lead.salesAgent.name}
+                    Sales Agent: {lead.salesAgent?.name}
                   </p>
                   <p className="marginLead">Status: {lead.status}</p>
                   <p className="marginLead">Priority: {lead.priority}</p>

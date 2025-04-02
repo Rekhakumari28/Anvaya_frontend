@@ -55,7 +55,7 @@ function Settings() {
                         <div className="cards-body">
                           <h4 className="marginLead">{lead.name}</h4>
                           <p className="marginLead">
-                            Sales Agent: {lead.salesAgent.name}
+                            Sales Agent: {lead.salesAgent?.name}
                           </p>
                           <p className="marginLead">Status: {lead.status}</p>
                           <button

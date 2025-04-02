@@ -65,10 +65,10 @@ function Home() {
       <LeadHeading />
       <div className="mainContent">
         <div className="rows ">
-          <div>
+          <div >
             <SidebarNav />
           </div>
-          <div className="cols ">
+          <div className="cols " style={{width:"100%"}}>
             <div className=" sections">
               <h4 className="content-heading">
                 {filters?.length > 0 ? " Lead List by Status:" : "All Leads:"}
@@ -91,7 +91,7 @@ function Home() {
                           <div className="cards-body">
                             <h4 className="marginLead">{lead.name}</h4>
                             <p className="marginLead">
-                              Sales Agent: {lead.salesAgent.name}
+                              Sales Agent: {lead.salesAgent?.name}
                             </p>
                             <p className="marginLead">Status: {lead.status}</p>
                           </div>
@@ -110,7 +110,7 @@ function Home() {
                           <div className="cards-body">
                             <h4 className="marginLead">{lead.name}</h4>
                             <p className="marginLead">
-                              Sales Agent: {lead.salesAgent.name}
+                              Sales Agent: {lead.salesAgent?.name}
                             </p>
                             <p className="marginLead">Status: {lead.status}</p>
                           </div>

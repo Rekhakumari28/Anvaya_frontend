@@ -1,12 +1,13 @@
-import React  from 'react'
+import React, { useState }  from 'react'
 import LeadHeading from '../../components/LeadHeading'
 import SidebarNav from '../../components/SidebarNav'
 
 import SalesAgentListComponent from './SalesAgentListComponent'
-import { Link } from 'react-router-dom';
+import AddAgent from './AddAgent'
+
 
 function SalesAgentManagement() {
- 
+  const [isActive, setIsActive] = useState(false)
   return (
     <>
      <LeadHeading/> 
@@ -21,9 +22,8 @@ function SalesAgentManagement() {
                      className=" sections"
                      style={{ textAlign: "center", paddingTop: "24px" }}
                    >
-                     <Link to="/addLead" className="button">
-                       Add New Lead
-                     </Link>
+                    <button className='button border-0'  isActive={isActive} onClick={()=>setIsActive(!isActive)}>Add New Lead</button>
+                    {isActive ? <AddAgent /> : "" }
                    </div>
       </div>
      

@@ -10,6 +10,7 @@ import AddLeadForm from "./Routes/AddLead/AddLeadForm";
 import LeadsByStatus from "./Routes/LeadsView/LeadsByStatus";
 import LeadsBySalesAgents from "./Routes/LeadsView/LeadsBySalesAgents";
 import Settings from "./Routes/Settings/Settings";
+import AddAgent from "./Routes/SalesAgents/AddAgent";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
        <Route path="/leadsByStatus/:status" element={<LeadsByStatus/>} />
        <Route path="/leadsBySalesAgent/:agentName" element={<LeadsBySalesAgents/>} />   
        <Route path="/settings"  element={<Settings/>}/>    
+    
       </Routes>
     </Router>
   );

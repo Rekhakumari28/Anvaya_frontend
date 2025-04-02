@@ -25,7 +25,7 @@ const dispatch = useDispatch()
   };  
 
   return (
-    <div className="sections">
+    <div className="sections border-1">
       <div className="p-4 m-2 ">
         <h4 className="content-heading" >Add New Sales Agent</h4>
         <div className="hr-gray ">
