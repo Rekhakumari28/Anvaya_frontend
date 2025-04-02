@@ -7,8 +7,8 @@ import LeadDetailsManagement from "./Routes/LeadDetails/LeadDetailsManagement";
 import SalesAgentManagement from "./Routes/SalesAgents/SalesAgentManagement";
 import Reports from "./Routes/Reports/Reports";
 import AddLeadForm from "./Routes/AddLead/AddLeadForm";
-import LeadsByStatus from "./Routes/leadsView/LeadsByStatus";
-import LeadsBySalesAgents from "./Routes/leadsView/LeadsBySalesAgents";
+import LeadsByStatus from "./Routes/LeadsView/LeadsByStatus";
+import LeadsBySalesAgents from "./Routes/LeadsView/LeadsBySalesAgents";
 import Settings from "./Routes/Settings/Settings";
 
 
