@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchLeads } from "../../features/leadsSlice";
 import LeadHeading from "../../components/LeadHeading";
 import SidebarNav from "../../components/SidebarNav";
-import { fetchLeadsByQuery, sortedLeadByTimeToClose } from "../../features/filterSlice";
+import { fetchLeadsByQuery, sortedLeadByTimeToClose,sortedLeadByPriority } from "../../features/filterSlice";
 
 function LeadsBySalesAgents() {
   const [filterByCloseTime, setFilterByCloseTime] = useState([]);
@@ -18,18 +18,15 @@ function LeadsBySalesAgents() {
       return state.filters;
     });
 
+ const leadsSortedByPriority = useSelector((state) => {
+    return state.filters.prioritySortedLead;
+  });
+
   useEffect(() => {
     dispatch(fetchLeads());
   
   });
-
-  const findLeadsData = leads.filter(
-    (lead) => lead.salesAgent?.name === agentName.agentName
-  );
-  const leadsRemoveDuplicates = findLeadsData.reduce(
-    (acc, curr) => (acc.includes(curr.status) ? acc : [...acc, curr.status]),
-    []
-  );
+ 
 
  const handleFilterChange = (key, value) => {
     const params = new URLSearchParams({ [key]: value });
@@ -40,14 +37,25 @@ function LeadsBySalesAgents() {
     dispatch(sortedLeadByTimeToClose());
     setFilterByCloseTime(leadsSortedByTimeToClose?.sortByTimeToClose);
   };
+ 
 
-  const mappingData = filterByCloseTime.length > 0
+  const mappingData = filters.length> 0 ? filters.filter((lead) => lead.salesAgent?.name === agentName.agentName) 
+  : leadsSortedByPriority?.concatSortedData?.length > 0 ? leadsSortedByPriority?.concatSortedData.filter(
+    (lead) => lead.salesAgent?.name === agentName.agentName
+  )   
+  :filterByCloseTime
     ? filterByCloseTime?.filter(
         (lead) => lead.salesAgent?.name === agentName.agentName
-      )
-    : filters.length> 0 ? filters.filter((lead) => lead.salesAgent?.name === agentName.agentName)
-      : leads.filter((lead) => lead.salesAgent?.name === agentName.agentName);
-console.log(mappingData)
+      )  : 
+      leads.filter((lead) => lead.salesAgent?.name === agentName.agentName)   
+      
+    const leadsData = leads.filter((lead) => lead.salesAgent?.name === agentName.agentName)   
+      const leadsRemoveDuplicates = leadsData.reduce(
+        (acc, curr) => (acc.includes(curr.status) ? acc : [...acc, curr.status]),
+        []
+      );
+
+
   return (
     <>
       <LeadHeading />
@@ -108,7 +116,19 @@ console.log(mappingData)
                       </div>
                     </div>
                   ))
-                ) : (
+                ) : leadsData?.length>0 ? leadsData.map((lead) => (
+                  <div
+                    className="cards"
+                    key={lead._id}
+                    style={{ margin: "12px 6px 0 0", width: "100%" }}
+                  >
+                    <div className="cards-body">
+                      <strong>{lead?.name}</strong> | Status: {lead.status} |
+                      Priority: {lead.priority} | Time to Close:{" "}
+                      {lead.timeToClose}
+                    </div>
+                  </div>
+                )) : (
                   <div
                     className="cards"
                     style={{ margin: "12px 6px 0 0", width: "100%" }}
@@ -167,8 +187,8 @@ console.log(mappingData)
                     }
                   >
                     <option>Select Priority</option>
-                    <option value="High-Low">High-Low</option>
                     <option value="Low-High">Low-High</option>
+                    <option value="High-Low">High-Low</option>
                   </select>
                 </span>
                 <span className="cols ">
