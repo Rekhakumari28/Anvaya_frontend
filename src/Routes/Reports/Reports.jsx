@@ -7,12 +7,14 @@ function Reports() {
   return (
     <>
       <LeadHeading/>
-      <div className='row'>
-        <div className='col-md-3'>
+      <div className='mainContent'>
+      <div className='rows'>
+        <div >
           <SidebarNav/>
         </div>
-        <div className='col-md-9 mt-5 pt-5'>
+        <div className='cols' style={{width:"100%"}}>
           <ReportComponent />
+        </div>
         </div>
       </div>
     </>

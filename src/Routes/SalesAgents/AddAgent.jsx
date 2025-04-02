@@ -25,10 +25,13 @@ const dispatch = useDispatch()
   };  
 
   return (
-    <div className="border rounded container mt-4">
+    <div className="sections">
       <div className="p-4 m-2 ">
-        <h4>Add New Sales Agent</h4>
+        <h4 className="content-heading" >Add New Sales Agent</h4>
+        <div className="hr-gray ">
+        {" "}
         <hr />
+      </div>
         <form onSubmit={handleSubmitAgentForm}>
           <p className="row">
             <span className="col-md-3">Agent Name:</span>
@@ -52,8 +55,11 @@ const dispatch = useDispatch()
               />
             </span>
           </p>
-          <hr />
-          <button type="submit">Create Agent</button>
+          <div className="hr-gray ">
+        {" "}
+        <hr />
+      </div>
+          <button type="submit" className="button" style={{border: "none"}}>Create Agent</button>
         </form>
       </div>
     </div>

@@ -1,25 +1,27 @@
 import { Link } from "react-router-dom";
-
+import { SiGoogleads } from "react-icons/si";
+import { BsPeopleFill } from "react-icons/bs";
+import { VscGraph } from "react-icons/vsc";
+import { IoSettingsSharp } from "react-icons/io5";
 function SidebarNav() {
     
   return (
     <>
     
-    <div className=" pt-5 mt-4 navbar  " style={{position: "fixed", width: "300px" }}>
-      <div className="p-2 mt-4 ms-2 rounded border " style={{height: "550px" , width: "100%"}}>
-      <h2 className="navbar-brand text-center  pt-2">Dashboard</h2>
-    <hr />
+    <div className=" sidenav ">      
+      <Link className="navbar-nav navbar-brand marginStartSidenav" to="/" >Dashboard</Link>
+      <div className="hr-gray"><hr /></div>
       {location.pathname === "/" ? (
-          <div className="navbar-nav">        
-          <div className="nav-item border-dashed"><Link to='/leads' className="nav-link">Leads</Link></div>
-          <div className="nav-item"><Link className="nav-link" to="/sales">Sales</Link></div>
-          <div className="nav-item"><Link className="nav-link" to="/reports">Reports</Link></div>
+          <div >        
+          <Link className="navbar-nav marginStartSidenav" to='/leads' ><SiGoogleads /> Leads</Link>
+         <Link className="navbar-nav marginStartSidenav"  to="/sales"> <BsPeopleFill /> Sales Agents</Link>
+          <Link className="navbar-nav marginStartSidenav" to="/reports"><VscGraph/> Reports</Link>
+          <Link className="navbar-nav marginStartSidenav" to="/settings"><IoSettingsSharp/> Settings</Link>
           </div>
         ) : (
-          <div><Link to="/">Back to Dashboard</Link></div>
-        )}
+          <div><Link className="navbar-nav marginStartSidenav" style={{marginLeft:"40px"}} to="/">Back to Dashboard</Link></div>
+        )}  
      
-     </div>
     </div>
     </>
   );

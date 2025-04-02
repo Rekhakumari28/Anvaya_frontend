@@ -19,12 +19,13 @@ export const getGroupedLead = createAsyncThunk(
   }
 );
 
+
 export const addLeadAsync = createAsyncThunk(
   "addLead/addLeadAsync",
-  async (newLead) => {
+  async (leadDataObject) => {
     const response = await axios.post(
       "https://anvaya-backend.vercel.app/api/leads",
-      newLead
+      leadDataObject
     );
     const data = response.data;
     return data;
@@ -33,10 +34,10 @@ export const addLeadAsync = createAsyncThunk(
 
 export const updateLeadAsync = createAsyncThunk(
   "update/updateLeadAsync",
-  async ({ leadId, updateLead }) => {
+  async ({ leadId, leadDataObject }) => {
     const response = await axios.patch(
       `https://anvaya-backend.vercel.app/api/leads/${leadId}`,
-      updateLead
+      leadDataObject
     );
     const data = response.data;
     return data;

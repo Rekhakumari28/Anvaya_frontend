@@ -29,7 +29,7 @@ const barChartData = {
       label:"Leads",
       data: barData,
       backgroundColor:"rgb(204,255,229,0.9)",
-      borderColor: "rgb(224,224,224,0.9)",
+      borderColor: "rgb(195, 155, 211 ,0.9)",
       borderWidth: 1,
     }
   ]
@@ -39,7 +39,7 @@ const options = {}
 
     return (
       <div className="container  " style={{ textAlign: "center", width: "500px" }}>
-         <h4 >Leads Closed by Sales Agent:</h4>
+         <h4 className="content-heading" >Leads Closed by Sales Agent:</h4>
         <Bar
           data={barChartData}
           options={options}

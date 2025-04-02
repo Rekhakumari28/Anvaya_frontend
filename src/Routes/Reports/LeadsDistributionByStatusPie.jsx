@@ -29,7 +29,7 @@ const paiChartData = {
     {
       label: "Total Leads",
       data: datasetData,
-      backgroundColor:[ "rgb(255,204,153,0.9)", "rgb(224,224,224,0.9)", "rgb(204,255,229,0.9)"],
+      backgroundColor:[ "rgb(255,204,153,0.9)", "rgb(224,224,224,0.9)", "rgb(204,255,229,0.9)", "rgb(247, 220, 111, 0.9)" , "rgb(195, 155, 211 , 0.9)"],
       hoverOffset: 4,
     },
   ],
@@ -39,7 +39,7 @@ const options = {};
   return (
    <div className="container " style={{width: "400px"}}
    >
-         <h4 >Lead Status Distribution:</h4>
+         <h4 className="content-heading">Lead Status Distribution:</h4>
           {status === "Loading" ? <p>Pie char is loading...</p>: <Pie data={paiChartData} options={options} /> }
                 {error && <p>{error}</p> }      
        </div>

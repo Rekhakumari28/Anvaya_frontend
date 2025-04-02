@@ -1,35 +1,26 @@
 import React from "react";
-
-function LeadHeading({leadData}) {
+import "./../App.css";
+function LeadHeading({ leadData }) {
   return (
     <>
-      {location.pathname === "/" || location.pathname === "/report" ? (
-        <div className="py-4 text-center border fs-4 bg-light fixed-top">
-          Anvaya CRM Dashboard
-        </div>
+      {location.pathname === "/" ? (
+        <div className="leadHeading ">Anvaya CRM Dashboard</div>
+      ) : location.pathname === "/reports" ? (
+        <div className="leadHeading ">Anvaya CRM Reports</div>
       ) : location.pathname === "/leads" ? (
-        <div className="py-4 text-center border fs-4 bg-light fixed-top">
-         Lead List 
-        </div>
-      ) : location.pathname.includes('/leadDetails/') ? (
-        <div className="py-4 text-center border fs-4 bg-light fixed-top">
-          Lead Management: {leadData?.name}
-        </div>
-      )
-      
-      
-      : location.pathname === "/sales" ? (
-        <div className="py-4 text-center border fs-4 bg-light fixed-top ">
-          Sales Agent Management
-        </div>
+        <div className="leadHeading">Lead List</div>
+      ) : location.pathname.includes("/leadDetails/") ? (
+        <div className="leadHeading">Lead Management: {leadData?.name}</div>
+      ) : location.pathname === "/sales" ? (
+        <div className="leadHeading ">Sales Agent Management</div>
       ) : location.pathname === "/agents" ? (
-        <div className="py-4 text-center border fs-4 bg-light fixed-top">
-          Add New Sales Agent
-        </div>
-      )  : (
-        <div className="py-4 text-center border fs-4 bg-light fixed-top">
-          Leads by Sales Agent
-        </div>
+        <div className="leadHeading">Add New Sales Agent</div>
+      ) : location.pathname.includes("/leadsByStatus/") ? (
+        <div className="leadHeading">Leads by Status</div>
+      ) : location.pathname === "/settings" ? (
+        <div className="leadHeading">Anvaya CRM Settings</div>
+      ) : (
+        <div className="leadHeading">Leads by Sales Agent</div>
       )}
     </>
   );

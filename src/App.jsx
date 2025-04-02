@@ -7,7 +7,9 @@ import LeadDetailsManagement from "./Routes/LeadDetails/LeadDetailsManagement";
 import SalesAgentManagement from "./Routes/SalesAgents/SalesAgentManagement";
 import Reports from "./Routes/Reports/Reports";
 import AddLeadForm from "./Routes/AddLead/AddLeadForm";
-
+import LeadsByStatus from "./Routes/leadsView/LeadsByStatus";
+import LeadsBySalesAgents from "./Routes/leadsView/LeadsBySalesAgents";
+import Settings from "./Routes/Settings/Settings";
 
 
 function App() {
@@ -21,6 +23,9 @@ function App() {
         <Route path="/reports" element={<Reports />} />
        <Route path="/addLead/:leadId" element={<AddLeadForm/>} />
        <Route path="/addLead" element={<AddLeadForm/>} />
+       <Route path="/leadsByStatus/:status" element={<LeadsByStatus/>} />
+       <Route path="/leadsBySalesAgent/:agentName" element={<LeadsBySalesAgents/>} />   
+       <Route path="/settings"  element={<Settings/>}/>    
       </Routes>
     </Router>
   );

@@ -4,6 +4,7 @@ import axios from "axios";
 
 export const reportLastWeek = createAsyncThunk("report/reportLastWeek", async()=>{
     const response = await axios.get("https://anvaya-backend.vercel.app/api/report/last-week")
+    console.log(response, "response")
     const data = response.data
     
     return data

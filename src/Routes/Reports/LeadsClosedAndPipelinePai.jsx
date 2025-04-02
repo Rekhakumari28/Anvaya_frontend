@@ -9,12 +9,14 @@ ChartJs.register(Tooltip, Legend, ArcElement);
 export function PieChart() {
   const dispatch = useDispatch();
   const lastWeek = useSelector((state) => {
+    console.log(state.report)
     return state.report;
   });
   const {reportPipeline, status, error} = useSelector((state) => {
     return state.report;
   });
 
+ 
 
   useEffect(() => {
     dispatch(reportLastWeek());
@@ -26,6 +28,7 @@ export function PieChart() {
     Array.isArray(lastWeek?.reportLastWeek?.reportLastWeek) &&
     lastWeek?.reportLastWeek?.reportLastWeek.length;    
 
+    console.log(closedLeads)
 const pipelineLeads =  reportPipeline?.totalLeads
 
   const paiChartData = {
@@ -43,7 +46,7 @@ const pipelineLeads =  reportPipeline?.totalLeads
   return (
     <div className="container " style={{width: "400px"}}
    >
-      <h4 >Total closed and Pipeline Leads:</h4>
+      <h4  className="content-heading">Total closed and Pipeline Leads:</h4>
       {status === "Loading" ? <p>Pie char is loading...</p>: <Pie data={paiChartData} options={options} /> }
       {error && <p>{error}</p> }
     </div>

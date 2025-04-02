@@ -1,0 +1,159 @@
+
+.leadHeading {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #f0f0f3;
+  padding: 24px 8px;
+  font-size: 1.5rem;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sidenav{
+    height: 550px;
+  width: 300px;
+  position: fixed;
+  z-index: 1;
+  top: 6rem;
+  left: 1rem;
+  border-radius: .5rem;
+  background-color: #545454;
+  overflow: hidden;
+  padding-top: 20px;
+}
+
+.navbar-brand{
+    padding-top: 8px;
+    color: lightgray;
+    font-size: large;
+}
+
+.navbar-nav {
+    padding: 12px;
+    text-decoration: none;
+    font-size: 20px;
+    color: lightgray;
+    display: block;
+}
+
+.marginStartSidenav{
+  margin-left: 60px;
+}
+
+.navbar-nav:hover {
+    color: #fdfdfd;
+  }
+
+  .hr-gray hr{
+    display: block;
+    background-color: white;
+    margin: 1rem ;
+    height: 2px ;
+    width: 50%;
+  }
+  .mainContent {
+    margin-left: 350px;
+    margin-top: 55px;
+  }
+  
+  .rows {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .cols {
+    margin: 12px;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .col-mds {
+    padding: 6px;
+    margin: 6px 6px 6px 24px;
+  }
+  
+  .sections {
+    border-radius: 0.5rem;
+    padding: 12px 24px 24px 24px;
+    margin: 18px 18px 18px 0;
+    background-color: lightblue;
+  }
+  
+  .content-heading {
+    text-align: center;
+    color: white;
+  }
+  
+  .hr-gray hr {
+    display: block;
+    background-color: white;
+    margin: 1rem;
+    height: 2px;
+    width: 90%;
+  }
+  
+  .button {
+    background-color: #04aa6d;
+    border-radius: 0.5rem;
+    color: white;
+    padding: 8px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .button:hover {
+    background-color: #06462e;
+  }
+  
+  .cards {
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    width: 15rem;
+  }
+  .cards-body {
+    padding: 1rem;
+  }
+  
+  .marginLead {
+    margin: 0 0 2px 4px;
+  }
+  
+
+  .button-danger{
+    background-color: #ec5b5b;
+    border-radius: 0.5rem;
+    color: white;
+    padding: 8px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .border-0{
+    border: none;
+  }
+  .padding-0{
+    padding: 1px;
+  }
+  .margin-0{
+    margin:1px
+  }
+  
+  
+
+ 

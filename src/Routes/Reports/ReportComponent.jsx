@@ -9,22 +9,22 @@ import {LeadsDistributionByStatusPie} from "./LeadsDistributionByStatusPie.jsx";
 function ReportComponent() {
   
   return (
-    <div className="border rounded p-4 m-2 text-center">
-      <h2>Report Overview</h2>
+    <div className="sections">
+      <h2 className="content-heading">Report Overview</h2>
 
-      <hr />
+      <div className="hr-gray "> <hr /></div>
       <div >
      
         <PieChart/>
       </div>
 
-      <hr />
+      <div className="hr-gray "> <hr /></div>
       <div >
        
         <BarChart/>
       </div>
 
-      <hr />
+      <div className="hr-gray "> <hr /></div>
       <div >
        
        <LeadsDistributionByStatusPie />
