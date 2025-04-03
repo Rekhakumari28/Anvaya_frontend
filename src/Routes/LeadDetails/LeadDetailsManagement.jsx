@@ -63,7 +63,7 @@ function LeadDetailsManagement() {
 <div className="cards-body"> 
                 <p > Lead Name: {leadData?.name}</p>
                 
-                <p> Sales Agent: {leadData?.salesAgent.name}</p>
+                <p> Sales Agent: {leadData?.salesAgent?.name ? leadData?.salesAgent?.name : ""}</p>
                 <p> Lead Source: {leadData?.source}</p>
                 <p> Lead Status: {leadData?.status}</p>
                 <p> Time to Close: {leadData?.timeToClose}</p>

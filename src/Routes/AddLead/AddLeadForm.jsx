@@ -12,74 +12,93 @@ import { useParams } from "react-router-dom";
 import { fetchAllSalesAgent } from "../../features/salesAgentSlice";
 import { addTagsAsync } from "../../features/tagSlice";
 
-
-const AddTagComponent= ()=>{
-  const [newTag ,setNewTag] = useState("")
+const AddTagComponent = () => {
+  const [newTag, setNewTag] = useState("");
   const dispatch = useDispatch();
 
-  const handleSubmitTag = (event)=>{
-    event.preventDefault()
-    console.log(newTag)
-    dispatch(addTagsAsync({name: newTag}))
-  }
+  const handleSubmitTag = (event) => {
+    event.preventDefault();
+    console.log(newTag);
+    dispatch(addTagsAsync({ name: newTag }));
+  };
   return (
     <form onSubmit={handleSubmitTag}>
-    <input
-      type="text"
-      className="form-control"
-      placeholder="Add new tag"
-      style={{ margin: "6px" }}
-      onChange={(event)=>setNewTag(event.target.value)}
-    />{" "}
-    <button className="button" type="submit" style={{ margin: "6px",border: "none" }}   >
-      Add
-    </button>
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Add new tag"
+        style={{ margin: "6px" }}
+        onChange={(event) => setNewTag(event.target.value)}
+      />{" "}
+      <button
+        className="button"
+        type="submit"
+        style={{ margin: "6px", border: "none" }}
+      >
+        Add
+      </button>
     </form>
-  )
-}
-
+  );
+};
 
 function AddLeadForm() {
   const [leadName, setLeadName] = useState("");
   const [leadSource, setLeadSource] = useState("");
-  const [salesAgent, setSalesAgent] = useState("");
+  const [salesAgent, setSalesAgent] = useState([]);
   const [leadStatus, setLeadStatus] = useState("");
   const [tag, setTag] = useState([]);
   const [timeToClose, setTimeToClose] = useState("");
   const [priority, setPriority] = useState("");
-  
 
   const leadId = useParams();
   const dispatch = useDispatch();
   const { leads } = useSelector((state) => state.leads);
-  const { agents } = useSelector((state) => state.salesAgent );
+  const { agents } = useSelector((state) => state.salesAgent);
   const { tags } = useSelector((state) => state.leads);
 
   const leadExist =
     leadId && leads && leads.find((lead) => lead._id === leadId.leadId);
   const existing = Boolean(leadExist);
-
   useEffect(() => {
     dispatch(fetchLeads());
     dispatch(fetchAllSalesAgent());
     dispatch(fetchTags());
   }, []);
 
+  console.log(
+    leadName,
+    leadSource,
+    salesAgent,
+    leadStatus,
+    tag,
+    timeToClose,
+    priority
+  );
+  console.log(
+    leadExist?.name,
+    leadExist?.source,
+    leadExist.salesAgent?.name,
+    leadExist.status,
+    leadExist.tag,
+    leadExist?.timeToClose,
+    leadExist?.priority
+  );
+
   useEffect(() => {
     if (existing) {
-      setLeadName(leadExist.leadName || "");
-      setLeadSource(leadExist.leadSource || "");
-      setSalesAgent(leadExist.salesAgent || "");
-      setLeadStatus(leadExist.leadStatus || "");
+      setLeadName(leadExist?.name || "");
+      setLeadSource(leadExist?.source || "");
+      setSalesAgent(leadExist.salesAgent?.name || "");
+      setLeadStatus(leadExist.status || "");
       setTag(leadExist.tag || "");
-      setTimeToClose(leadExist.timeToClose || "");
-      setPriority(leadExist.priority || "");
+      setTimeToClose(leadExist?.timeToClose || "");
+      setPriority(leadExist?.priority || "");
     }
   }, [existing, leadExist]);
 
   const handleTag = (event) => {
     const { value, checked } = event.target;
-   
+
     if (checked) {
       setTag((prevVal) => [...prevVal, value]);
     } else {
@@ -100,7 +119,7 @@ function AddLeadForm() {
         timeToClose: timeToClose,
         priority: priority,
       };
-      console.log(leadDataObject)
+      console.log(leadDataObject);
       dispatch(addLeadAsync(leadDataObject));
     } else {
       const leadDataObject = {
@@ -112,12 +131,10 @@ function AddLeadForm() {
         timeToClose: timeToClose,
         priority: priority,
       };
-      console.log(leadDataObject)
-      dispatch(updateLeadAsync({ leadId: leadId.leadId, leadDataObject }));      
+      console.log(leadDataObject);
+      dispatch(updateLeadAsync({ leadId: leadId.leadId, leadDataObject }));
     }
-  
-
-  }; 
+  };
 
   return (
     <>
@@ -139,13 +156,13 @@ function AddLeadForm() {
                 <div className="rows" style={{ marginBottom: "0" }}>
                   <span
                     className="cols"
-                    style={{ width: "250px ", textAlign: "center" }}
+                    style={{ width: "180px ", textAlign: "center" }}
                   >
                     Lead Name:{" "}
                   </span>{" "}
                   <span
                     className="cols"
-                    style={{ width: "600px", margin: "6px" }}
+                    style={{ width: "700px", margin: "6px" }}
                   >
                     <input
                       type="text"
@@ -159,13 +176,13 @@ function AddLeadForm() {
                 <div className="rows">
                   <span
                     className="cols"
-                    style={{ width: "250px ", textAlign: "center" }}
+                    style={{ width: "180px ", textAlign: "center" }}
                   >
                     Lead Source:{" "}
                   </span>{" "}
                   <span
                     className="cols"
-                    style={{ width: "600px", margin: "6px" }}
+                    style={{ width: "700px", margin: "6px" }}
                   >
                     <select
                       name="leadSource"
@@ -185,15 +202,29 @@ function AddLeadForm() {
                 <div className="rows">
                   <span
                     className="cols"
-                    style={{ width: "250px ", textAlign: "center" }}
+                    style={{ width: "180px ", textAlign: "center" }}
                   >
                     Assigned Sales Agent:{" "}
                   </span>{" "}
                   <span
                     className="cols"
-                    style={{ width: "600px", margin: "6px" }}
+                    style={{ width: "700px", margin: "6px" }}
                   >
-                    <select
+                    { agents && agents.map((agent)=> 
+                     <label className="me-5"  key={agent._id}>
+                     <input
+                       className="form-check-input"
+                       type="checkbox"
+                       value={agent._id}
+                       name="salesAgents"
+                       
+                       onChange={(event) => setLeadStatus(event.target.value)}
+                     />{" "}
+                     {agent.name}
+                   </label> ) }
+                   
+
+                    {/* <select
                       className="form-select "
                       onChange={(event) => setSalesAgent(event.target.value)}
                     >
@@ -204,20 +235,21 @@ function AddLeadForm() {
                             {agent.name}
                           </option>
                         ))}
-                    </select>
+                    </select> */}
                   </span>
                 </div>
                 <div className="rows">
                   <span
                     className="cols"
-                    style={{ width: "250px ", textAlign: "center" }}
+                    style={{ width: "180px ", textAlign: "center" }}
                   >
                     Lead Status:{" "}
                   </span>
                   <span
                     className="cols"
-                    style={{ width: "600px", margin: "6px" }}
+                    style={{ width: "700px", margin: "6px" }}
                   >
+ {" "}
                     <select
                       className="form-select "
                       onChange={(event) => setLeadStatus(event.target.value)}
@@ -234,43 +266,40 @@ function AddLeadForm() {
                 <div className="rows">
                   <span
                     className="cols"
-                    style={{ width: "250px ", textAlign: "center" }}
+                    style={{ width: "180px ", textAlign: "center" }}
                   >
                     Tags:{" "}
                   </span>{" "}
                   <span
                     className="cols"
-                    style={{ width: "600px", margin: "6px" }}
+                    style={{ width: "700px", margin: "6px" }}
                   >
                     {tags &&
                       tags.map((tag) => (
-                        
-                          <label className="form-label  me-3" key={tag._id}>
-                            {" "}
-                            <input
-                              onChange={handleTag}
-                              type="checkbox"
-                              name="tag"
-                              value={tag.name}
-                              className="form-check-input"
-                            />{" "}
-                            {tag.name}
-                          </label>
-                       
+                        <label className="form-label  me-3" key={tag._id}>
+                          {" "}
+                          <input
+                            onChange={handleTag}
+                            type="checkbox"
+                            name="tag"
+                            value={tag.name}
+                            className="form-check-input"
+                          />{" "}
+                          {tag.name}
+                        </label>
                       ))}
                   </span>
-                 
                 </div>
                 <div className="rows">
                   <span
                     className="cols"
-                    style={{ width: "250px ", textAlign: "center" }}
+                    style={{ width: "180px ", textAlign: "center" }}
                   >
                     Time to Close:{" "}
                   </span>
                   <span
                     className="cols"
-                    style={{ width: "600px", margin: "6px" }}
+                    style={{ width: "700px", margin: "6px" }}
                   >
                     <input
                       onChange={(event) => setTimeToClose(event.target.value)}
@@ -284,28 +313,30 @@ function AddLeadForm() {
                 <div className="rows">
                   <span
                     className="cols"
-                    style={{ width: "250px ", textAlign: "center" }}
+                    style={{ width: "180px ", textAlign: "center" }}
                   >
                     Priority:{" "}
                   </span>{" "}
                   <span
                     className="cols"
-                    style={{ width: "600px", margin: "6px" }}
+                    style={{ width: "700px", margin: "6px" }}
                   >
-                    {" "}
+                   
                     <select
                       className="form-select "
                       onChange={(event) => setPriority(event.target.value)}
                     >
                       <option>Select</option>
-                      <option value="High">High</option>
+                      <option value="High" >High</option>
                       <option value="Medium">Medium</option>
                       <option value="Low">Low</option>
                     </select>
                   </span>
                 </div>
                 <div className="hr-gray">
-                <div className="hr-gray"><hr /></div>
+                  <div className="hr-gray">
+                    <hr />
+                  </div>
                 </div>
 
                 <button
@@ -318,11 +349,11 @@ function AddLeadForm() {
               </form>
             </div>
             <div className="sections">
-            <h4 className="content-heading">
-            Add Tag:
-            </h4>    
-            <div className="hr-gray"><hr /></div>
-            <AddTagComponent/>
+              <h4 className="content-heading">Add Tag:</h4>
+              <div className="hr-gray">
+                <hr />
+              </div>
+              <AddTagComponent />
             </div>
           </div>
         </div>
