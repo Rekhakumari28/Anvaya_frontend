@@ -22,7 +22,7 @@ function SalesAgentManagement() {
                      className=" sections"
                      style={{ textAlign: "center", paddingTop: "24px" }}
                    >
-                    <button className='button border-0'  isActive={isActive} onClick={()=>setIsActive(!isActive)}>Add New Lead</button>
+                    <button className='button border-0'  isActive={isActive} onClick={()=>setIsActive(!isActive)}>Add New Agent</button>
                     {isActive ? <AddAgent /> : "" }
                    </div>
       </div>

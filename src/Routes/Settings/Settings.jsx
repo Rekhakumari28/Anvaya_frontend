@@ -4,6 +4,7 @@ import { deleteLeadAsync, fetchLeads } from "../../features/leadsSlice";
 import LeadHeading from "../../components/LeadHeading";
 import SidebarNav from "../../components/SidebarNav";
 import { deleteSalesAgentAsync, fetchAllSalesAgent } from "../../features/salesAgentSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 
 function Settings() {
@@ -22,11 +23,20 @@ function Settings() {
 
   const handleDeletLead = (leadId) => {
     dispatch(deleteLeadAsync(leadId));
-
+toast.success('Lead Deleted Successfully!')
+setTimeout(() => {
+  window.location.reload();
+  navigate("/");
+}, 2000);
   };
 
   const handleDeleteAgent = (agentId)=>{
     dispatch(deleteSalesAgentAsync(agentId))
+    toast.success('Agent Deleted Successfully!')
+    setTimeout(() => {
+      window.location.reload();
+      navigate("/");
+    }, 2000);
   }
   
 
@@ -96,6 +106,10 @@ function Settings() {
                       </div>
                     </div>
                   ))}
+                  <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
               </div>
             </div>
           </div>

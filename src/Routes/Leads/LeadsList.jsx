@@ -160,7 +160,7 @@ function LeadsList() {
               </div>
             </div>
             <div className="sections">
-              <Link className="button">Add New Lead</Link>
+              <Link className="button" to="/addLead">Add New Lead</Link>
             </div>
           </div>
         </div>

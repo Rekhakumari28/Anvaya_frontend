@@ -8,9 +8,10 @@ import {
 } from "../../features/leadsSlice";
 import LeadHeading from "../../components/LeadHeading";
 import SidebarNav from "../../components/SidebarNav";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchAllSalesAgent } from "../../features/salesAgentSlice";
 import { addTagsAsync } from "../../features/tagSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddTagComponent = () => {
   const [newTag, setNewTag] = useState("");
@@ -55,6 +56,7 @@ function AddLeadForm() {
   const { leads } = useSelector((state) => state.leads);
   const { agents } = useSelector((state) => state.salesAgent);
   const { tags } = useSelector((state) => state.leads);
+const navigate = useNavigate()
 
   const leadExist =
     leadId && leads && leads.find((lead) => lead._id === leadId.leadId);
@@ -65,46 +67,29 @@ function AddLeadForm() {
     dispatch(fetchTags());
   }, []);
 
-  console.log(
-    leadName,
-    leadSource,
-    salesAgent,
-    leadStatus,
-    tag,
-    timeToClose,
-    priority
-  );
-  console.log(
-    leadExist?.name,
-    leadExist?.source,
-    leadExist.salesAgent?.name,
-    leadExist.status,
-    leadExist.tag,
-    leadExist?.timeToClose,
-    leadExist?.priority
-  );
 
   useEffect(() => {
     if (existing) {
       setLeadName(leadExist?.name || "");
       setLeadSource(leadExist?.source || "");
-      setSalesAgent(leadExist.salesAgent?.name || "");
-      setLeadStatus(leadExist.status || "");
-      setTag(leadExist.tag || "");
+      setSalesAgent(leadExist?.salesAgent?.name || "");
+      setLeadStatus(leadExist?.status || "");
+      setTag(leadExist?.tag || "");
       setTimeToClose(leadExist?.timeToClose || "");
       setPriority(leadExist?.priority || "");
     }
   }, [existing, leadExist]);
 
-  const handleTag = (event) => {
-    const { value, checked } = event.target;
 
-    if (checked) {
-      setTag((prevVal) => [...prevVal, value]);
-    } else {
-      setTag((prevVal) => prevVal.filter((prev) => prev != value));
+  const handleTag = (event)=>{
+    const {checked, value} = event.target;
+    if(checked){
+      setTag((prevVal)=>[...prevVal, value])
+    }else{
+      setTag((prevVal)=>prevVal.filter(lead=> lead.tag != value))
     }
-  };
+  }
+
 
   const handleSubmitLeadForm = (event) => {
     event.preventDefault();
@@ -121,6 +106,13 @@ function AddLeadForm() {
       };
       console.log(leadDataObject);
       dispatch(addLeadAsync(leadDataObject));
+
+      toast.success('Lead Added Successfully!')
+      setTimeout(()=>{
+        window.location.reload()
+        navigate("/")
+       },2000)
+
     } else {
       const leadDataObject = {
         name: leadName,
@@ -133,6 +125,11 @@ function AddLeadForm() {
       };
       console.log(leadDataObject);
       dispatch(updateLeadAsync({ leadId: leadId.leadId, leadDataObject }));
+      toast.success('Lead Updated Successfully!')
+      setTimeout(()=>{
+        window.location.reload()
+        navigate(`/leadDetails/${leadId.leadId}`)
+       },2000)
     }
   };
 
@@ -210,7 +207,7 @@ function AddLeadForm() {
                     className="cols"
                     style={{ width: "700px", margin: "6px" }}
                   >
-                    { agents && agents.map((agent)=> 
+                    {/* { agents && agents.map((agent)=> 
                      <label className="me-5"  key={agent._id}>
                      <input
                        className="form-check-input"
@@ -221,10 +218,10 @@ function AddLeadForm() {
                        onChange={(event) => setLeadStatus(event.target.value)}
                      />{" "}
                      {agent.name}
-                   </label> ) }
+                   </label> ) } */}
                    
 
-                    {/* <select
+                    <select
                       className="form-select "
                       onChange={(event) => setSalesAgent(event.target.value)}
                     >
@@ -235,7 +232,7 @@ function AddLeadForm() {
                             {agent.name}
                           </option>
                         ))}
-                    </select> */}
+                    </select>
                   </span>
                 </div>
                 <div className="rows">
@@ -355,6 +352,10 @@ function AddLeadForm() {
               </div>
               <AddTagComponent />
             </div>
+            <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
           </div>
         </div>
       </div>
