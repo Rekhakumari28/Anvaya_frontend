@@ -205,20 +205,9 @@ function Home() {
                     />{" "}
                     Closed
                   </label>{" "}
-                  <label className="me-5">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      value="All"
-                      name="status"
-                     
-                      onChange={() =>
-                        dispatch(fetchLeads())
-                      }
-                    />{" "}
-                    All
-                  </label>{" "}
+                 
                 </span>
+                <button className="button border-0"  style={{ width: "15%", }} onClick={()=>window.location.reload()}>Reset</button>
               </p>
             </div>
             <div
