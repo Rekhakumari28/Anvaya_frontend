@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getGroupedLead } from "../../features/leadsSlice";
 import { sortedLeadByTimeToClose } from "../../features/filterSlice";
+import MobileSidebar from "../../components/MobileSidebar";
 
 function LeadsByStatus() {
   const [filtersAgent, setFiltersAgent] = useState("");
@@ -48,103 +49,45 @@ function LeadsByStatus() {
     (lead) => lead.salesAgent?.name === filtersAgent
   );
 
-  
   const handleSortByTimeToClose = () => {
     setFilterByCloseTime(leadsSortedByTimeToClose?.sortByTimeToClose);
   };
 
   const mappingLeads =
     filteredLeadsBySalesAgent?.length > 0
-      ? filteredLeadsBySalesAgent.filter(lead=>lead.status === status.status )      
+      ? filteredLeadsBySalesAgent.filter(
+          (lead) => lead.status === status.status
+        )
       : leadsSortedByPriority?.concatSortedData?.length > 0
-      ? leadsSortedByPriority?.concatSortedData.filter(lead=>lead.status === status.status )
+      ? leadsSortedByPriority?.concatSortedData.filter(
+          (lead) => lead.status === status.status
+        )
       : filterByCloseTime
-      ? filterByCloseTime.filter(lead=>lead.status === status.status )
+      ? filterByCloseTime.filter((lead) => lead.status === status.status)
       : findGroup[0];
 
   return (
     <>
-      <LeadHeading />
-      <div className="mainContent">
-        <div className="rows">
-          <div>
-            <SidebarNav />
-          </div>
-          <div className="cols" style={{ width: "100%" }}>
-            <div className="sections">
-              <h4 className="content-heading">Lead List by Status:</h4>
-              <div className="hr-gray">
-                <hr />
-              </div>
-              <div className="rows">
-                <div
-                  className="cards "
-                  style={{
-                    width: "80%",
-                    marginLeft: "100px",
-                    fontSize: "18px",
-                  }}
-                >
-                  <div className="cards-body">Status | {status?.status}</div>
-                </div>
-                <div className="hr-gray">
-                  <hr />
-                </div>
-              </div>
-            </div>
-            <div className="sections">
-              <h4 className="content-heading">Leads:</h4>
-              <div className="hr-gray">
-                <hr />
-              </div>
-              <div
-                className="rows"
-                style={{
-                  width: "80%",
-                  margin: "12px 0  0 100px",
-                  fontSize: "18px",
-                }}
-              >
-                { mappingLeads?.length > 0 ? mappingLeads?.map((lead) => (
-                  <div
-                    className="cards"
-                    key={lead._id}
-                    style={{ margin: "12px 6px 0 0", width: "100%" }}
-                  >
-                    <div className="cards-body">
-                      <strong>{lead?.name}</strong> | Sales Agent:{" "}
-                      {lead.salesAgent?.name} | Priority: {lead.priority} | Time
-                      to Close: {lead.timeToClose}
-                    </div>
-                  </div>
-                )) :  findGroup[0]?.map(lead => 
-                  <div
-                    className="cards"
-                    key={lead._id}
-                    style={{ margin: "12px 6px 0 0", width: "100%" }}
-                  >
-                    <div className="cards-body">
-                      <strong>{lead?.name}</strong> | Sales Agent:{" "}
-                      {lead.salesAgent?.name} | Priority: {lead.priority} | Time
-                      to Close: {lead.timeToClose}
-                    </div>
-                  </div>
-                 )  }
-              </div>
-            </div>
-            <div className="sections">
-              <div className="rows " style={{ margin: "0 6px" }}>
-                <span
-                  className="cols "
-                  style={{ width: "250px", margin: "6px" }}
-                >
-                  <h5 className="text-center">Filters:</h5>{" "}
+      <LeadHeading status={status?.status} />
+      <div className="row" style={{ marginTop: "52px" }}>
+        <div
+          className="col-12 col-md-3 col-lg-2 d-none d-md-block"
+          style={{ position: "fixed", overflowY: "auto" }}
+        >
+          <SidebarNav />
+        </div>
+        <div className="col-12 col-md-3 col-lg-2 d-none d-md-block"></div>
+
+        <div className="col-12 col-md-9 col-lg-10 ">
+          <MobileSidebar />
+          <div className="container-fluid px-2">
+            <div className="py-2">
+              <div className="row ">
+                <span className="col-md-2 ">
+                  <h2 className="mt-2">Filters:</h2>{" "}
                 </span>
 
-                <span
-                  className="cols "
-                  style={{ width: "250px", margin: "6px" }}
-                >
+                <span className="col-md-2 mt-3 ">
                   <select
                     className="form-select "
                     onChange={(event) => setFiltersAgent(event.target.value)}
@@ -157,22 +100,10 @@ function LeadsByStatus() {
                     ))}
                   </select>
                 </span>
-              </div>
-              <div className="rows" style={{ margin: "0 6px" }}>
-                <span
-                  className="cols "
-                  style={{ width: "250px", margin: "6px" }}
-                >
-                  {" "}
-                  <h5 className="text-center">Sort by:</h5>{" "}
-                </span>
 
-                <span
-                  className="cols  "
-                  style={{ width: "250px", margin: "6px" }}
-                >
+                <span className="col-md-2  ">
                   <select
-                    className="form-select mb-3"
+                    className="form-select mb-3 mt-3"
                     onChange={(event) =>
                       dispatch(sortedLeadByPriority(event.target.value))
                     }
@@ -182,10 +113,7 @@ function LeadsByStatus() {
                     <option value="High-Low">High-Low</option>
                   </select>
                 </span>
-                <span
-                  className="cols "
-                  style={{ width: "250px", margin: "6px" }}
-                >
+                <span className="col-md-2 mt-4">
                   <label>
                     {" "}
                     <input
@@ -196,6 +124,43 @@ function LeadsByStatus() {
                     Time to Close
                   </label>
                 </span>
+                <span className="col-md-2 mt-3">
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => window.location.reload()}
+                  >
+                    Reset
+                  </button>
+                </span>
+              </div>
+            </div>
+            <div className="py-2">
+              <div>
+                {mappingLeads?.length > 0
+                  ? mappingLeads?.map((lead) => (
+                      <div
+                        className="card bg-success-subtle border-0 mt-2"
+                        key={lead._id}
+                      >
+                        <div className="card-body p-3">
+                          <strong>{lead?.name}</strong> | Sales Agent:{" "}
+                          {lead.salesAgent?.name} | Priority: {lead.priority} |
+                          Time to Close: {lead.timeToClose}
+                        </div>
+                      </div>
+                    ))
+                  : findGroup[0]?.map((lead) => (
+                      <div
+                        className="card bg-success-subtle border-0 mt-2"
+                        key={lead._id}
+                      >
+                        <div className="cards-body p-3">
+                          <strong>{lead?.name}</strong> | Sales Agent:{" "}
+                          {lead.salesAgent?.name} | Priority: {lead.priority} |
+                          Time to Close: {lead.timeToClose}
+                        </div>
+                      </div>
+                    ))}
               </div>
             </div>
           </div>

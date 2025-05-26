@@ -1,37 +1,65 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Anvaya_CRM_URL } from "./userSlice";
 
 export const fetchAllSalesAgent = createAsyncThunk(
   "salesAgent/fetchAllSalesAgent",
   async () => {
-    const response = await axios.get(
-      "https://anvaya-backend.vercel.app/api/agents"
+   try {
+    const token = localStorage.getItem("token");
+     const response = await axios.get(
+      `${Anvaya_CRM_URL}/api/agents`,{
+              headers: {
+                Authorization: `${token}`,
+              },
+            }
     );
     const data = response.data;
     return data;
+   } catch (error) {
+    console.log(error)
+   }
   }
 );
 
 export const addSalesAgentAsync = createAsyncThunk(
   "addSalesAgent/addSalesAgentAsync",
   async (newSalesAgent) => {
-    const response = await axios.post(
-      "https://anvaya-backend.vercel.app/api/agents",
-      newSalesAgent
+   try {
+    const token = localStorage.getItem("token");
+     const response = await axios.post(
+      `${Anvaya_CRM_URL}/api/agents`,
+      newSalesAgent, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
     );
     const data = response.data;
     return data;
+   } catch (error) {
+    console.log(error)
+   }
   }
 );
 
 export const deleteSalesAgentAsync = createAsyncThunk(
   "deleteAgent/deleteSalesAgentAsync",
   async (agentId) => {
-    const response = await axios.delete(
-      `https://anvaya-backend.vercel.app/api/agents/${agentId}`
+   try {
+    const token = localStorage.getItem("token");
+     const response = await axios.delete(
+      `${Anvaya_CRM_URL}/api/agents/${agentId}`,{
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
     );
     const data = response.data;
     return data;
+   } catch (error) {
+    console.log(error)
+   }
   }
 );
 

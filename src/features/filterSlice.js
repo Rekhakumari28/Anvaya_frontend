@@ -1,24 +1,54 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Anvaya_CRM_URL } from "./userSlice";
 
 export const fetchLeadsByQuery = createAsyncThunk("leads/fetchLeadsByQuery", async (query) => {
-    const response = await axios.get(`https://anvaya-backend.vercel.app/api/leads?${query}`);
+   try {
+    const token = localStorage.getItem("token");
+     const response = await axios.get(`${Anvaya_CRM_URL}/api/leads?${query}` ,{
+             headers: {
+               Authorization: `${token}`,
+             },
+           });
    
     const data = response.data;
     
     return data;
+   } catch (error) {
+    console.log("Error: ", error)
+   }
   });
 
   export const sortedLeadByPriority = createAsyncThunk( "sorted/sortedLeadByPriority", async (valueSelected) => {
-      const response = await axios.get(`https://anvaya-backend.vercel.app/api/leads/priority/${valueSelected}` );
+     try {
+        const token = localStorage.getItem("token");
+         const response = await axios.get(`${Anvaya_CRM_URL}/api/leads/priority/${valueSelected}`,{
+        headers: {
+          Authorization: `${token}`,
+        },
+      } );
       const data = response.data;
       return data;
+     } catch (error) {
+        
+         console.log("Error: ", error)
+     }
     }
   );
   export const sortedLeadByTimeToClose = createAsyncThunk("leads/sortedLeadByTimeToClose", async () => {
-      const response = await axios.get("https://anvaya-backend.vercel.app/api/leads/timeToClose");
+     try {
+        const token = localStorage.getItem("token");
+         const response = await axios.get( `${Anvaya_CRM_URL}/api/leads/timeToClose`,{
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
       const data = response.data;
       return data;
+     } catch (error) {
+        
+         console.log("Error: ", error)
+     }
     }
   );
 

@@ -1,21 +1,43 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Anvaya_CRM_URL } from "./userSlice";
 
 export const fetchLeads = createAsyncThunk("leads/fetchLeads", async () => {
+ try {  
+  const token = localStorage.getItem("token");
+  console.log(token)
   const response = await axios.get(
-    "https://anvaya-backend.vercel.app/api/leads"
+    `${Anvaya_CRM_URL}/api/leads`,{
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
   );
   const data = response.data;
+  console.log(data, "response")
   return data;
+ } catch (error) {
+  console.log("Error", error)
+ }
+  
 });
 export const getGroupedLead = createAsyncThunk(
   "leads/getGroupedLead",
   async () => {
-    const response = await axios.get(
-      "https://anvaya-backend.vercel.app/api/leads/grouped"
+   try {
+      const token = localStorage.getItem("token");
+     const response = await axios.get(
+      `${Anvaya_CRM_URL}/api/leads/grouped`,{
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
     );
     const data = response.data;
     return data;
+   } catch (error) {
+   console.log("Error", error) 
+   }
   }
 );
 
@@ -23,55 +45,100 @@ export const getGroupedLead = createAsyncThunk(
 export const addLeadAsync = createAsyncThunk(
   "addLead/addLeadAsync",
   async (leadDataObject) => {
-    const response = await axios.post(
-      "https://anvaya-backend.vercel.app/api/leads",
-      leadDataObject
+   try {
+      const token = localStorage.getItem("token");
+     const response = await axios.post(
+      `${Anvaya_CRM_URL}/api/leads`,
+      leadDataObject , {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
     );
     const data = response.data;
     return data;
+   } catch (error) {
+     console.log("Error", error) 
+   }
   }
 );
 
 export const updateLeadAsync = createAsyncThunk(
   "update/updateLeadAsync",
   async ({ leadId, leadDataObject }) => {
-    const response = await axios.patch(
-      `https://anvaya-backend.vercel.app/api/leads/${leadId}`,
-      leadDataObject
+   try {
+      const token = localStorage.getItem("token");
+     const response = await axios.patch(
+      `${Anvaya_CRM_URL}/api/leads/${leadId}`,
+      leadDataObject, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
     );
     const data = response.data;
     return data;
+   } catch (error) {
+     console.log("Error", error) 
+   }
   }
 );
 
 export const deleteLeadAsync = createAsyncThunk(
   "delete/deleteLeadAsync",
   async (leadId) => {
-    const response = await axios.delete(
-      `https://anvaya-backend.vercel.app/api/leads/${leadId}`
+   try {
+      const token = localStorage.getItem("token");
+     const response = await axios.delete(
+      `${Anvaya_CRM_URL}/api/leads/${leadId}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
     );
     const data = response.data;
     return data;
+   } catch (error) {
+    console.log("Error", error)
+   }
   }
 );
 
 export const fetchLeadsById = createAsyncThunk(
   "leadsById/fetchLeadsById",
   async (leadId) => {
+    try {      
+     const token = localStorage.getItem("token");
     const response = await axios.get(
-      `https://anvaya-backend.vercel.app/api/leads/${leadId}`
+      `${Anvaya_CRM_URL}/api/leads/${leadId}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
     );
     const data = response.data;
     return data;
+     } catch (error) {
+       console.log("Error", error)
+    }
   }
 );
 
 export const fetchTags = createAsyncThunk("tags/fetchTags", async () => {
-  const response = await axios.get(
-    "https://anvaya-backend.vercel.app/api/tags"
+  try {
+      const token = localStorage.getItem("token");
+    const response = await axios.get(
+      `${Anvaya_CRM_URL}/api/tags`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
   );
   const data = response.data;
   return data;
+  } catch (error) {
+     console.log("Error", error) 
+  }
 });
 
 export const leadSlice = createSlice({

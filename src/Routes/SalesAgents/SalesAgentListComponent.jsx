@@ -4,51 +4,73 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSalesAgent } from "../../features/salesAgentSlice";
 import { Link } from "react-router-dom";
 import { fetchLeads } from "../../features/leadsSlice";
+import AddAgent from "./AddAgent";
 
 function SalesAgentListComponent() {
-
+  const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
   const agentList = useSelector((state) => {
     return state.salesAgent;
   });
-  const {leads} = useSelector((state)=>state.leads)
+  const { leads } = useSelector((state) => state.leads);
 
   useEffect(() => {
-    dispatch(fetchLeads())
+    dispatch(fetchLeads());
     dispatch(fetchAllSalesAgent());
   }, []);
 
   return (
-    <div className="sections">
-      <h3 className="content-heading">Sales Agent List</h3>
-      <div className="hr-gray ">
-        {" "}
-        <hr />
-      </div >
-      <div className="rows">
+    <div className="py-2">
+      <div className="row">
+        <h2 className="mt-2">
+          Sales Agents{" "}
+          <button
+            className="btn btn-primary float-end"
+            isActive={isActive}
+            onClick={() => setIsActive(!isActive)}
+          >
+            Add New Agent
+          </button>
+          {isActive ? <AddAgent /> : ""}{" "}
+        </h2>
+      </div>
+      <hr />
+
+      <div className="row">
         {agentList.agents?.length > 0 &&
           agentList?.agents?.map((agent) => (
-            <div key={agent._id} className="cols"  style={{ margin: "0 50px 0 30px" }} >
-              <Link to={`/leadsBySalesAgent/${agent.name}`} style={{textDecoration:"none"}}>
-           <div className="cards"   style={{
-              width: "700px",
-              fontSize: "18px",
-              padding: "12px 24px 12px 60px",
-            }}>
-           {agent.name}: {agent.email} | Total Leads: {leads.filter(lead=> lead.salesAgent?.name === agent.name).length}
-             <Link
-                           className="button-primary"
-                             to={`/leadsBySalesAgent/${agent.name}`}
-                             style={{ textDecoration: "none", width:"20%" , margin: "0 0 0 60px"}}
-                           >
-                             view more
-                           </Link>
-           </div>
-           </Link>
+            <div key={agent._id} className="col-md-6 my-2">
+              <Link
+                to={`/leadsBySalesAgent/${agent.name}`}
+                className="text-decoration-none"
+              >
+                <div className="card bg-success-subtle border-0 p-3">
+                  <div className="row">
+                    <div className="col-md-9 ">
+                      {" "}
+                      {agent.name}: {agent.email} | Total Leads:{" "}
+                      {
+                        leads.filter(
+                          (lead) => lead.salesAgent?.name === agent.name
+                        ).length
+                      }
+                    </div>
+                    <div className="col-md-3 ">
+                      {" "}
+                      <Link
+                        className="btn btn-primary float-end"
+                        to={`/leadsBySalesAgent/${agent.name}`}
+                       
+                      >
+                        view more
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
           ))}
       </div>
-      
     </div>
   );
 }

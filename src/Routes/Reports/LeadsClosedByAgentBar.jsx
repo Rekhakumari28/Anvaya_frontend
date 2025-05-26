@@ -38,8 +38,8 @@ const barChartData = {
 const options = {}
 
     return (
-      <div className="container  " style={{ textAlign: "center", width: "500px" }}>
-         <h4 className="content-heading" >Leads Closed by Sales Agent:</h4>
+      <div className="container  "   style={{ textAlign: "center", maxWidth: "600px" }}>
+         <h4 className="text-center" >Leads Closed by Sales Agent:</h4>
         <Bar
           data={barChartData}
           options={options}

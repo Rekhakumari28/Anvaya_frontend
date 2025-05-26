@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchLeads } from "../../features/leadsSlice";
 import LeadHeading from "../../components/LeadHeading";
 import SidebarNav from "../../components/SidebarNav";
-import { fetchLeadsByQuery, sortedLeadByTimeToClose,sortedLeadByPriority } from "../../features/filterSlice";
+import {
+  fetchLeadsByQuery,
+  sortedLeadByTimeToClose,
+  sortedLeadByPriority,
+} from "../../features/filterSlice";
+import MobileSidebar from "../../components/MobileSidebar";
 
 function LeadsBySalesAgents() {
   const [filterByCloseTime, setFilterByCloseTime] = useState([]);
@@ -15,20 +20,18 @@ function LeadsBySalesAgents() {
     return state.filters.timeToCloseSortedLead;
   });
   const { filters } = useSelector((state) => {
-      return state.filters;
-    });
+    return state.filters;
+  });
 
- const leadsSortedByPriority = useSelector((state) => {
+  const leadsSortedByPriority = useSelector((state) => {
     return state.filters.prioritySortedLead;
   });
 
   useEffect(() => {
     dispatch(fetchLeads());
-  
   });
- 
 
- const handleFilterChange = (key, value) => {
+  const handleFilterChange = (key, value) => {
     const params = new URLSearchParams({ [key]: value });
     dispatch(fetchLeadsByQuery(params.toString()));
   };
@@ -37,172 +40,132 @@ function LeadsBySalesAgents() {
     dispatch(sortedLeadByTimeToClose());
     setFilterByCloseTime(leadsSortedByTimeToClose?.sortByTimeToClose);
   };
- 
 
-  const mappingData = filters.length> 0 ? filters.filter((lead) => lead.salesAgent?.name === agentName.agentName) 
-  : leadsSortedByPriority?.concatSortedData?.length > 0 ? leadsSortedByPriority?.concatSortedData.filter(
+  const mappingData =
+    filters.length > 0
+      ? filters.filter((lead) => lead.salesAgent?.name === agentName.agentName)
+      : leadsSortedByPriority?.concatSortedData?.length > 0
+      ? leadsSortedByPriority?.concatSortedData.filter(
+          (lead) => lead.salesAgent?.name === agentName.agentName
+        )
+      : filterByCloseTime
+      ? filterByCloseTime?.filter(
+          (lead) => lead.salesAgent?.name === agentName.agentName
+        )
+      : leads.filter((lead) => lead.salesAgent?.name === agentName.agentName);
+
+  const leadsData = leads.filter(
     (lead) => lead.salesAgent?.name === agentName.agentName
-  )   
-  :filterByCloseTime
-    ? filterByCloseTime?.filter(
-        (lead) => lead.salesAgent?.name === agentName.agentName
-      )  : 
-      leads.filter((lead) => lead.salesAgent?.name === agentName.agentName)   
-      
-    const leadsData = leads.filter((lead) => lead.salesAgent?.name === agentName.agentName)   
-      const leadsRemoveDuplicates = leadsData.reduce(
-        (acc, curr) => (acc.includes(curr.status) ? acc : [...acc, curr.status]),
-        []
-      );
-
+  );
+  const leadsRemoveDuplicates = leadsData.reduce(
+    (acc, curr) => (acc.includes(curr.status) ? acc : [...acc, curr.status]),
+    []
+  );
 
   return (
     <>
-      <LeadHeading />
-      <div className="mainContent">
-        <div className="rows">
-          <div>
-            <SidebarNav />
-          </div>
-          <div className="cols" style={{ width: "100%" }}>
-            <div className="sections">
-              <h3 className="content-heading">Lead List by Agent</h3>
-              <div className="hr-gray ">
-                {" "}
-                <hr />
-              </div>
-              <div className="rows">
-                <div
-                  className="cards"
-                  style={{
-                    width: "80%",
-                    marginLeft: "100px",
-                    fontSize: "18px",
-                  }}
-                >
-                  <div className="cards-body">
-                    Sales Agent: | {agentName.agentName}
-                  </div>
-                </div>
-                <div className="hr-gray">
-                  <hr />
-                </div>
-              </div>
-            </div>
-            <div className="sections">
-              <h4 className="content-heading">Leads:</h4>
-              <div className="hr-gray">
-                <hr />
-              </div>
-              <div
-                className="rows"
-                style={{
-                  width: "80%",
-                  margin: "12px 0  0 100px",
-                  fontSize: "18px",
-                }}
-              >
-                {mappingData?.length > 0 ? (
-                  mappingData?.map((lead) => (
-                    <div
-                      className="cards"
-                      key={lead._id}
-                      style={{ margin: "12px 6px 0 0", width: "100%" }}
+      <LeadHeading agent={agentName.agentName} />
+      <div className="row" style={{ marginTop: "52px" }}>
+        <div
+          className="col-12 col-md-3 col-lg-2  d-none d-md-block"
+           style={{ position: "fixed", overflowY: "auto" }}
+        >
+          <SidebarNav />
+        </div>
+        <div className="col-12 col-md-3 col-lg-2  d-none d-md-block"></div>
+
+        <div className="col-12 col-md-9 col-lg-10 ">
+          <MobileSidebar />
+          <div className="container-fluid px-2">
+            <div className="py-2">
+              <div className="row">
+               
+                <div className="row " style={{ margin: "0 6px" }}>
+                  <span className="col-md-2 ">
+                     <h2 className="mt-2">Filters </h2>
+                  </span>
+
+                  <span className="col-md-2 mt-2">
+                    <select
+                      className="form-select"
+                      onChange={(event) =>
+                        handleFilterChange("status", event.target.value)
+                      }
                     >
-                      <div className="cards-body">
+                      <option>Select Status</option>
+                      {leadsRemoveDuplicates.map((status, index) => (
+                        <option key={index} value={status}>
+                          {status}
+                        </option>
+                      ))}
+                    </select>
+                  </span>
+
+                  <span className="col-md-2  mt-2">
+                    <select
+                      className="form-select "
+                      onChange={(event) =>
+                        dispatch(sortedLeadByPriority(event.target.value))
+                      }
+                    >
+                      <option>Select Priority</option>
+                      <option value="Low-High">Low-High</option>
+                      <option value="High-Low">High-Low</option>
+                    </select>
+                  </span>
+                  <span className="col-md-2 mt-3 ">
+                    <label>
+                      {" "}
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        onChange={handleSortByTimeToClose}
+                      />{" "}
+                      Time to Close
+                    </label>
+                  </span>
+                  <span className="col-md-2 mt-2">
+                    <button className="btn btn-secondary">Reset</button>
+                  </span>
+                </div>
+              </div>
+              <hr />
+            </div>
+
+            <div className="row">
+              {mappingData?.length > 0 ? (
+                mappingData?.map((lead) => (
+                  <div className="col-md-12 my-2" key={lead._id}>
+                    <div className="card bg-success-subtle">
+                      <div className="card-body">
                         <strong>{lead?.name}</strong> | Status: {lead.status} |
                         Priority: {lead.priority} | Time to Close:{" "}
                         {lead.timeToClose}
                       </div>
                     </div>
-                  ))
-                ) : leadsData?.length>0 ? leadsData.map((lead) => (
-                  <div
-                    className="cards"
-                    key={lead._id}
-                    style={{ margin: "12px 6px 0 0", width: "100%" }}
-                  >
-                    <div className="cards-body">
-                      <strong>{lead?.name}</strong> | Status: {lead.status} |
-                      Priority: {lead.priority} | Time to Close:{" "}
-                      {lead.timeToClose}
+                  </div>
+                ))
+              ) : leadsData?.length > 0 ? (
+                leadsData.map((lead) => (
+                  <div className="col-md-12 my-2" key={lead._id}>
+                    <div className="card bg-success-subtle">
+                      <div className="card-body">
+                        <strong>{lead?.name}</strong> | Status: {lead.status} |
+                        Priority: {lead.priority} | Time to Close:{" "}
+                        {lead.timeToClose}
+                      </div>
                     </div>
                   </div>
-                )) : (
-                  <div
-                    className="cards"
-                    style={{ margin: "12px 6px 0 0", width: "100%" }}
-                  >
-                    <div className="cards-body">
+                ))
+              ) : (
+                <div className="col-md-12 my-2">
+                  <div className="card bg-success-subtle">
+                    <div className="card-body">
                       No Leads for this sales agent.
                     </div>
                   </div>
-                )}
-              </div>
-            </div>
-            <div className="sections">
-              <div className="rows " style={{ margin: "0 6px" }}>
-                <span
-                  className="cols "
-                  style={{ width: "250px", margin: "6px" }}
-                >
-                  <h5 className="text-center">Filters:</h5>{" "}
-                </span>
-
-                <span
-                  className="cols "
-                  style={{ width: "250px", margin: "6px" }}
-                >
-                  <select
-                    className="form-select"
-                    onChange={ (event)=> handleFilterChange("status", event.target.value)}
-                  
-                  >
-                    <option>Select Status</option>
-                    {leadsRemoveDuplicates.map((status, index) => (
-                      <option key={index} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                  </select>
-                </span>
-              </div>
-              <div className="rows" style={{ margin: "0 6px" }}>
-                <span
-                  className="cols "
-                  style={{ width: "250px", margin: "6px" }}
-                >
-                  {" "}
-                  <h5 className="text-center">Sort by:</h5>{" "}
-                </span>
-
-                <span
-                  className="cols  "
-                  style={{ width: "250px", margin: "6px" }}
-                >
-                  <select
-                    className="form-select mb-3"
-                    onChange={(event) =>
-                      dispatch(sortedLeadByPriority(event.target.value))
-                    }
-                  >
-                    <option>Select Priority</option>
-                    <option value="Low-High">Low-High</option>
-                    <option value="High-Low">High-Low</option>
-                  </select>
-                </span>
-                <span className="cols ">
-                  <label>
-                    {" "}
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      onChange={handleSortByTimeToClose}
-                    />{" "}
-                    Time to Close
-                  </label>
-                </span>
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

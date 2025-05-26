@@ -10,13 +10,17 @@ import AddLeadForm from "./Routes/AddLead/AddLeadForm";
 import LeadsByStatus from "./Routes/LeadsView/LeadsByStatus";
 import LeadsBySalesAgents from "./Routes/LeadsView/LeadsBySalesAgents";
 import Settings from "./Routes/Settings/Settings";
+import Login from "./Routes/Auth/Login";
+import Register from "./Routes/Auth/Register";
 
 
 function App() {
   return (
     <Router>
       <Routes>  
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />}/>
+        <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/leads" element={<LeadsList />} />
         <Route path="/leadDetails/:leadId" element={<LeadDetailsManagement />}/>
         <Route path="/sales" element={<SalesAgentManagement />} />

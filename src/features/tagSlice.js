@@ -1,17 +1,36 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Anvaya_CRM_URL} from "./userSlice";
 
 export const fetchTagsAsync = createAsyncThunk("tags/fetchTagsAsync", async () => {
-    const response = await axios.get(`https://anvaya-backend.vercel.app/api/tags`);   
+    try {
+        const token = localStorage.getItem("token");        
+    const response = await axios.get(`${Anvaya_CRM_URL}/api/tags`,{
+            headers: {
+              Authorization: `${token}`,
+            },
+          });   
     const data = response.data;    
     return data;
+    } catch (error) {
+        console.log(error)
+    }
   });
 
 export const addTagsAsync = createAsyncThunk("tags/addTagsAsync", async (newTag) => {
-    const response = await axios.post(`https://anvaya-backend.vercel.app/api/tags`, newTag);   
+    try {
+        const token = localStorage.getItem("token");
+        const response = await axios.post(`${Anvaya_CRM_URL}/api/tags`, newTag ,{
+        headers: {
+          Authorization: `${token}`,
+        },
+      });   
     const data = response.data;   
-    console.log(data, "data submit") 
+    console.log(data, "Tag added") 
     return data;
+    } catch (error) {
+        console.log(error)
+    }
   });
 
 export const tagSlice = createSlice({

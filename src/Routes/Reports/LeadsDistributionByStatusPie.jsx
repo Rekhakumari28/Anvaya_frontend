@@ -37,9 +37,9 @@ const paiChartData = {
 const options = {};
 
   return (
-   <div className="container " style={{width: "400px"}}
+   <div className="container text-center"   style={{  maxWidth: "400px" }}
    >
-         <h4 className="content-heading">Lead Status Distribution:</h4>
+         <h4 >Lead Status Distribution:</h4>
           {status === "Loading" ? <p>Pie char is loading...</p>: <Pie data={paiChartData} options={options} /> }
                 {error && <p>{error}</p> }      
        </div>

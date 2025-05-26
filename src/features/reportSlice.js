@@ -1,27 +1,55 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Anvaya_CRM_URL } from "./userSlice";
 
 
 export const reportLastWeek = createAsyncThunk("report/reportLastWeek", async()=>{
-    const response = await axios.get("https://anvaya-backend.vercel.app/api/report/last-week")
+   try {
+    const token = localStorage.getItem("token");
+     const response = await axios.get(`${Anvaya_CRM_URL}/api/report/last-week`,{
+             headers: {
+               Authorization: `${token}`,
+             },
+           })
     console.log(response, "response")
     const data = response.data
     
     return data
+   } catch (error) {
+    console.log("Error: ", error)
+   }
 })
 
 export const reportPipelineAsync = createAsyncThunk('report/reportPipeline', async()=>{
-    const response = await axios.get("https://anvaya-backend.vercel.app/api/report/pipeline")
+   try {
+    const token = localStorage.getItem("token");
+     const response = await axios.get(`${Anvaya_CRM_URL}/api/report/pipeline`,{
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
     const data = response.data
     return data
+   } catch (error) {
+    console.log("Error :", error)
+   }
 })
 
 
 export const reportLeadClosedByAgent = createAsyncThunk('report/reportLeadClosedByAgent', async()=>{
-    const response = await axios.get("https://anvaya-backend.vercel.app/api/report/closed-by-agent")
+    try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`${Anvaya_CRM_URL}/api/report/closed-by-agent`,{
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
     const data = response.data
 
     return data
+    } catch (error) {
+        console.log("Error: ", error)
+    }
 })
 
 export const reportSlice = createSlice({

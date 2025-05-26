@@ -14,9 +14,7 @@ export function PieChart() {
   });
   const {reportPipeline, status, error} = useSelector((state) => {
     return state.report;
-  });
-
- 
+  }); 
 
   useEffect(() => {
     dispatch(reportLastWeek());
@@ -44,9 +42,9 @@ const pipelineLeads =  reportPipeline?.totalLeads
   };
   const options = {};
   return (
-    <div className="container " style={{width: "400px"}}
+    <div className="container text-center"  style={{ maxWidth: "400px" }}
    >
-      <h4  className="content-heading">Total closed and Pipeline Leads:</h4>
+      <h4  >Total closed and Pipeline Leads:</h4>
       {status === "Loading" ? <p>Pie char is loading...</p>: <Pie data={paiChartData} options={options} /> }
       {error && <p>{error}</p> }
     </div>

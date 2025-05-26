@@ -7,24 +7,48 @@ import AddAgent from './AddAgent'
 
 
 function SalesAgentManagement() {
-  const [isActive, setIsActive] = useState(false)
+  
   return (
     <>
      <LeadHeading/> 
-     <div className='mainContent'>
-      <div className='rows'>
-      <div >
-        <SidebarNav />
-      </div>
-      <div className='cols' style={{width:"100%"}}>
-        <SalesAgentListComponent/>
+     <div className="row" style={{ marginTop: "52px" }}>
         <div
-                     className=" sections"
-                     style={{ textAlign: "center", paddingTop: "24px" }}
-                   >
-                    <button className='button border-0'  isActive={isActive} onClick={()=>setIsActive(!isActive)}>Add New Agent</button>
-                    {isActive ? <AddAgent /> : "" }
-                   </div>
+          style={{ maxWidth: "250px", height: "100%" }}
+          className="offcanvas offcanvas-start show "
+          tabIndex="-1"
+          id="mobileSidebar"
+          aria-labelledby="mobileSidebarLabel"
+        >
+          <div className="offcanvas-header">
+            <h5 className="offcanvas-title" id="mobileSidebarLabel">
+              Dashboard
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            >
+              {" "}
+            </button>
+          </div>
+          <div className="offcanvas-body">
+            <SidebarNav />
+          </div>
+        </div>
+         <div
+                  className="col-12 col-md-3 col-lg-2 col-md-2 d-none d-md-block"
+                  style={{ position: "fixed" }}
+                >
+                  <SidebarNav />
+                </div>
+      <div className="col-12 col-md-3 col-lg-2 col-md-2 d-none d-md-block"></div>
+
+        <div className="col-12 col-md-9 col-lg-10 ">
+     
+      <div className="container-fluid px-2 py-2">
+        <SalesAgentListComponent/>
+        
       </div>
      
       </div>
