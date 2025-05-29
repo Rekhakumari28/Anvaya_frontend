@@ -6,8 +6,7 @@ import LeadHeading from "../../components/LeadHeading";
 import SidebarNav from "../../components/SidebarNav";
 import {
   fetchLeadsByQuery,
-  sortedLeadByTimeToClose,
-  sortedLeadByPriority,
+ 
 } from "../../features/filterSlice";
 import MobileSidebar from "../../components/MobileSidebar";
 
@@ -17,14 +16,10 @@ function LeadsBySalesAgents() {
   const dispatch = useDispatch();
   const { leads } = useSelector((state) => state.leads);
   const leadsSortedByTimeToClose = useSelector((state) => {
-    return state.filters.timeToCloseSortedLead;
+    return state.filters
   });
   const { filters } = useSelector((state) => {
     return state.filters;
-  });
-
-  const leadsSortedByPriority = useSelector((state) => {
-    return state.filters.prioritySortedLead;
   });
 
   useEffect(() => {
@@ -37,8 +32,7 @@ function LeadsBySalesAgents() {
   };
 
   const handleSortByTimeToClose = () => {
-    dispatch(sortedLeadByTimeToClose());
-    setFilterByCloseTime(leadsSortedByTimeToClose?.sortByTimeToClose);
+   
   };
 
   const mappingData =
@@ -64,7 +58,7 @@ function LeadsBySalesAgents() {
 
   return (
     <>
-      <LeadHeading agent={agentName.agentName} />
+      <LeadHeading  />
       <div className="row" style={{ marginTop: "52px" }}>
         <div
           className="col-12 col-md-3 col-lg-2  d-none d-md-block"

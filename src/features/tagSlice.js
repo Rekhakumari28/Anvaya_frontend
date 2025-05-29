@@ -11,6 +11,7 @@ export const fetchTagsAsync = createAsyncThunk("tags/fetchTagsAsync", async () =
             },
           });   
     const data = response.data;    
+    console.log(response, "tags res")
     return data;
     } catch (error) {
         console.log(error)

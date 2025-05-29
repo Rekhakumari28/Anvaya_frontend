@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getGroupedLead } from '../../features/leadsSlice';
+// import { getGroupedLead } from '../../features/leadsSlice';
 import { Chart as ChartJs, Tooltip, Legend, ArcElement } from "chart.js/auto";
 import { Pie } from "react-chartjs-2";
 

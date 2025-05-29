@@ -5,9 +5,10 @@ import SidebarNav from "../../components/SidebarNav";
 
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getGroupedLead } from "../../features/leadsSlice";
-import { sortedLeadByTimeToClose } from "../../features/filterSlice";
+import { fetchLeads, getGroupedLead } from "../../features/leadsSlice";
+import { fetchTagsAsync } from "../../features/tagSlice";
 import MobileSidebar from "../../components/MobileSidebar";
+import { fetchLeadsByQuery } from "../../features/filterSlice";
 
 function LeadsByStatus() {
   const [filtersAgent, setFiltersAgent] = useState("");
@@ -16,26 +17,27 @@ function LeadsByStatus() {
   const status = useParams();
   const dispatch = useDispatch();
 
-  const statusGrouped = useSelector((state) => {
-    return state.leads.statusGrouped.leadsByStatus;
-  });
+  const tags = useSelector((state) => state.tags);
 
-  const leadsSortedByPriority = useSelector((state) => {
-    return state.filters.prioritySortedLead;
-  });
+  const statusGrouped = useSelector(
+    (state) => state.leads.statusGrouped.leadsByStatus
+  );
 
-  const leadsSortedByTimeToClose = useSelector((state) => {
-    return state.filters.timeToCloseSortedLead;
-  });
+  const filters = useSelector((state)=>{
+    console.log(state.filters, "filters")
+    return state.filters
+  })
 
   useEffect(() => {
     dispatch(getGroupedLead());
-    dispatch(sortedLeadByTimeToClose());
-  }, []);
+    dispatch(fetchLeads());
+    dispatch(fetchTagsAsync());
+  }, [dispatch]);
 
   const findGroup = Object.entries(statusGrouped)
     .filter(([keys, values]) => keys === status?.status)
     .map((lead) => lead[1]);
+  console.log(findGroup);
 
   const leadsRemoveDuplicatesAgentName = [...findGroup[0]].reduce(
     (acc, curr) =>
@@ -45,26 +47,12 @@ function LeadsByStatus() {
     []
   );
 
-  const filteredLeadsBySalesAgent = findGroup[0]?.filter(
-    (lead) => lead.salesAgent?.name === filtersAgent
-  );
-
-  const handleSortByTimeToClose = () => {
-    setFilterByCloseTime(leadsSortedByTimeToClose?.sortByTimeToClose);
+  const handleFilterChange = (key, value) => {   
+    const params = new URLSearchParams({ [key]: value });
+    dispatch(fetchLeadsByQuery(params.toString()));
   };
 
-  const mappingLeads =
-    filteredLeadsBySalesAgent?.length > 0
-      ? filteredLeadsBySalesAgent.filter(
-          (lead) => lead.status === status.status
-        )
-      : leadsSortedByPriority?.concatSortedData?.length > 0
-      ? leadsSortedByPriority?.concatSortedData.filter(
-          (lead) => lead.status === status.status
-        )
-      : filterByCloseTime
-      ? filterByCloseTime.filter((lead) => lead.status === status.status)
-      : findGroup[0];
+  
 
   return (
     <>
@@ -81,16 +69,18 @@ function LeadsByStatus() {
         <div className="col-12 col-md-9 col-lg-10 ">
           <MobileSidebar />
           <div className="container-fluid px-2">
+            <div className="row">
+              <h2 className="mt-2">Filters</h2>
+            </div>
+            <hr />
             <div className="py-2">
-              <div className="row ">
-                <span className="col-md-2 ">
-                  <h2 className="mt-2">Filters:</h2>{" "}
-                </span>
-
-                <span className="col-md-2 mt-3 ">
+              <div className="row">
+                <span className="col-md-2  ">
                   <select
                     className="form-select "
-                    onChange={(event) => setFiltersAgent(event.target.value)}
+                    onChange={(event) =>
+                      handleFilterChange("salesAgent", event.target.value)
+                    }
                   >
                     <option>Select Agent</option>
                     {leadsRemoveDuplicatesAgentName?.map((agent, index) => (
@@ -103,9 +93,9 @@ function LeadsByStatus() {
 
                 <span className="col-md-2  ">
                   <select
-                    className="form-select mb-3 mt-3"
+                    className="form-select "
                     onChange={(event) =>
-                      dispatch(sortedLeadByPriority(event.target.value))
+                      handleFilterChange("priority", event.target.value)
                     }
                   >
                     <option>Select Priority</option>
@@ -113,31 +103,39 @@ function LeadsByStatus() {
                     <option value="High-Low">High-Low</option>
                   </select>
                 </span>
-                <span className="col-md-2 mt-4">
+                <span className="col-md-2">
+                  <select
+                    className="form-select "
+                    onClick={(e) => handleFilterChange("tag", e.target.value)}
+                  >
+                    <option value="">Select Tag</option>
+                    {Array.isArray(tags) &&
+                      tags?.map((tag) => (
+                        <option value={tag.name} key={tag._id}>
+                          {tag.name}
+                        </option>
+                      ))}
+                  </select>
+                  </span>
+                     <span className="col-md-2">
                   <label>
-                    {" "}
                     <input
                       type="checkbox"
                       className="form-check-input"
-                      onChange={handleSortByTimeToClose}
+                      onChange={(event) =>
+                        handleFilterChange("timeToClose", "minToHigh")
+                      }
                     />{" "}
                     Time to Close
                   </label>
                 </span>
-                <span className="col-md-2 mt-3">
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => window.location.reload()}
-                  >
-                    Reset
-                  </button>
-                </span>
+                
               </div>
             </div>
             <div className="py-2">
               <div>
-                {mappingLeads?.length > 0
-                  ? mappingLeads?.map((lead) => (
+                {filters?.length > 0
+                  ? filters?.map((lead) => (
                       <div
                         className="card bg-success-subtle border-0 mt-2"
                         key={lead._id}

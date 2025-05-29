@@ -12,6 +12,7 @@ import LeadsBySalesAgents from "./Routes/LeadsView/LeadsBySalesAgents";
 import Settings from "./Routes/Settings/Settings";
 import Login from "./Routes/Auth/Login";
 import Register from "./Routes/Auth/Register";
+import Sales from "./Routes/Sales/Sales";
 
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/leads" element={<LeadsList />} />
         <Route path="/leadDetails/:leadId" element={<LeadDetailsManagement />}/>
-        <Route path="/sales" element={<SalesAgentManagement />} />
+       
+        <Route path="/sales" element= {<SalesAgentManagement/>} />
         <Route path="/reports" element={<Reports />} />
        <Route path="/addLead/:leadId" element={<AddLeadForm/>} />
        <Route path="/addLead" element={<AddLeadForm/>} />

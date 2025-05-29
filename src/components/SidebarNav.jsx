@@ -9,7 +9,7 @@ function SidebarNav() {
     <>
 
          <nav className="navbar bg-body-tertiary  vh-100 d-flex flex-column align-items-center" >
-        <div className="container ms-4">
+        <div className=" ms-4">
                     <div>
             <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
               {location.pathname === "/home" ? (
@@ -29,16 +29,10 @@ function SidebarNav() {
                     {" "}
                     <Link className="nav-link  " to="/sales">
                       {" "}
-                      <BsPeopleFill /> Sales 
+                      <BsPeopleFill /> Sales Agents  
                     </Link><hr />
                   </li>
-                  <li className="nav-item">
-                    {" "}
-                    <Link className="nav-link  " to="/sales">
-                      {" "}
-                      <BsPeopleFill /> Agents 
-                    </Link><hr />
-                  </li>
+                                   
                   <li className="nav-item">
                     {" "}
                     <Link className="nav-link  " to="/reports">

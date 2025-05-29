@@ -21,23 +21,17 @@ export default function LeadFilters() {
     dispatch(fetchLeadsByQuery(params.toString()));
   };
 
-  
   return (
- 
-<div className="container py-2">
-       
-   
+    <div className="container py-2">
       <div className=" rounded-top py-2">
-         <h3>Filters</h3>
-         <hr />
+        <h3>Filters</h3>
+        <hr />
       </div>
-      <div className="row " style={{overflow:"auto"}}>
-       <table className="table  " >
-         
-          <thead >
+      <div className="row" style={{ overflow: "auto" }}>
+        <table className="table">
+          <thead>
             <tr>
-              <th className=" bg-success-subtle rounded-start" scope="table">
-                {" "}
+              <th className="bg-success-subtle rounded-start" scope="table">
                 <label className="me-5">
                   <input
                     className="form-check-input"
@@ -52,8 +46,7 @@ export default function LeadFilters() {
                   New
                 </label>{" "}
               </th>
-              <th className=" bg-success-subtle" scope="table">
-                {" "}
+              <th className="bg-success-subtle" scope="table">
                 <label className="me-5">
                   <input
                     className="form-check-input"
@@ -68,8 +61,7 @@ export default function LeadFilters() {
                   Contacted
                 </label>
               </th>
-              <th className=" bg-success-subtle" scope="table">
-                {" "}
+              <th className="bg-success-subtle" scope="table">
                 <label className="me-5">
                   <input
                     className="form-check-input"
@@ -84,8 +76,7 @@ export default function LeadFilters() {
                   Qualified
                 </label>
               </th>
-              <th className=" bg-success-subtle" scope="table">
-                {" "}
+              <th className="bg-success-subtle" scope="table">
                 <label className="me-5">
                   <input
                     className="form-check-input"
@@ -100,7 +91,7 @@ export default function LeadFilters() {
                   Proposal Sent
                 </label>
               </th>
-              <th className=" bg-success-subtle" scope="table">
+              <th className="bg-success-subtle" scope="table">
                 <label className="me-5">
                   <input
                     className="form-check-input"
@@ -115,8 +106,7 @@ export default function LeadFilters() {
                   Closed
                 </label>
               </th>
-              <th className=" bg-success-subtle rounded-end" scope="table">
-                {" "}
+              <th className="bg-success-subtle rounded-end" scope="table">
                 <button
                   className="btn btn-secondary"
                   onClick={() => handleFilterChange("status", "")}
@@ -130,41 +120,36 @@ export default function LeadFilters() {
             {filters && filters?.length > 0 ? (
               filters?.map((lead) => (
                 <tr key={lead._id}>
-                  <th scope="row" >
+                  <th scope="row">
                     <span>{lead.name}</span>
                   </th>
                   <td>
-                    {" "}
                     <span>{lead.status}</span>
                   </td>
                   <td>
-                    {" "}
                     <span>
                       {lead.salesAgent.name} ({lead.salesAgent.email})
                     </span>
                   </td>
                   <td>
-                    {" "}
                     <span>{lead.source}</span>
                   </td>
                   <td>
-                    {" "}
                     <span>{lead.priority}</span>
                   </td>
                   <td>
-                    {" "}
                     <span>{lead.tags.join(", ")}</span>{" "}
                   </td>{" "}
                 </tr>
               ))
             ) : (
-              <tr > 
-              <th className="ms-2 mb-2">Select status</th>
+              <tr>
+                <th className="ms-2 mb-2">Select status</th>
               </tr>
             )}
           </tbody>
         </table>
-</div>
+      </div>
     </div>
   );
 }

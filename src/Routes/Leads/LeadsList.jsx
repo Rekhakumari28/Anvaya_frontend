@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchLeadsByQuery,
-  sortedLeadByPriority,
-  sortedLeadByTimeToClose,
+
 } from "../../features/filterSlice";
 import { fetchAllSalesAgent } from "../../features/salesAgentSlice";
 import { fetchLeads } from "../../features/leadsSlice";
@@ -14,21 +13,10 @@ import { AddLead } from "../../components/homeComponents/AllLeads";
 import MobileSidebar from "../../components/MobileSidebar";
 
 function LeadsList() {
-  const [filtersAgent, setFiltersAgent] = useState("");
-
-  const [filterByCloseTime, setFilterByCloseTime] = useState([]);
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
   const { filters } = useSelector((state) => {
     return state.filters;
-  });
-
-  const leadsSortedByPriority = useSelector((state) => {
-    return state.filters.prioritySortedLead;
-  });
-
-  const leadsSortedByTimeToClose = useSelector((state) => {
-    return state.filters.timeToCloseSortedLead;
   });
 
   const { leads } = useSelector((state) => state.leads);
@@ -43,35 +31,17 @@ function LeadsList() {
 
   useEffect(() => {
     dispatch(fetchAllSalesAgent());
-    dispatch(fetchLeads());
-    dispatch(sortedLeadByTimeToClose());
+   
+    dispatch(fetchLeads())
+   
   }, []);
 
-  const filteredLeadsBySalesAgent = leads.filter((lead) => {
-    return lead.salesAgent?.name === filtersAgent;
-  });
 
   const handleFilterChange = (key, value) => {
     const params = new URLSearchParams({ [key]: value });
     dispatch(fetchLeadsByQuery(params.toString()));
-  };
-
-  const handleSortByTimeToClose = () => {
-    setFilterByCloseTime(leadsSortedByTimeToClose?.sortByTimeToClose);
-  };
-
-  const sortedByPriority = leadsSortedByPriority?.concatSortedData;
-
-  const filterLeadsMapping =
-    filters?.length > 0
-      ? filters
-      : filteredLeadsBySalesAgent?.length > 0
-      ? filteredLeadsBySalesAgent
-      : sortedByPriority?.length > 0
-      ? sortedByPriority
-      : filterByCloseTime?.length > 0
-      ? filterByCloseTime
-      : leads;
+  }; 
+  
 
   return (
     <>
@@ -89,16 +59,14 @@ function LeadsList() {
         <div className="col-12 col-md-9 col-lg-10 ">
            <MobileSidebar />
           <div className="container-fluid px-2 py-2">
+            <div className="row">
+               <h2 className="mt-2">Filters</h2>
+            </div>
+            <hr />
             <table className="table">
               <thead>
                 <tr>
-                  <th
-                    className=" bg-success-subtle rounded-start"
-                    scope="table"
-                  >
-                    {" "}
-                    <h2 >Filters</h2>{" "}
-                  </th>
+                  
                   <th className=" bg-success-subtle " scope="table">
                     <select
                       className="form-select"
@@ -118,7 +86,7 @@ function LeadsList() {
                     {" "}
                     <select
                       className="form-select"
-                      onChange={(event) => setFiltersAgent(event.target.value)}
+                      onChange={(event) => handleFilterChange("salesAgent", event.target.value)}
                     >
                       <option>Select Agent</option>
                       {leadsRemoveDuplicates &&
@@ -134,7 +102,7 @@ function LeadsList() {
                     <select
                       className="form-select "
                       onChange={(event) =>
-                        dispatch(sortedLeadByPriority(event.target.value))
+                        handleFilterChange("priority",event.target.value)
                       }
                     >
                       <option>Select Priority</option>
@@ -142,13 +110,31 @@ function LeadsList() {
                       <option value="High-Low">High-Low</option>
                     </select>
                   </th>
-                  <th className=" bg-success-subtle" scope="table">
+                
+                  <th className="bg-success-subtle" scope="table">
+                     <select
+                      className="form-select "
+                      onChange={(event) =>
+                        handleFilterChange("source",event.target.value)
+                      }
+                    >
+                      <option>Select Source</option>
+                      <option value="Website">Website</option>
+                      <option value="Referral">Referral</option>
+                      <option value="Cold Call">Cold Call</option>
+                      <option value="Advertisment">Advertisment</option>
+                      <option value="Email">Email</option>
+                      <option value="Other">Other</option>
+                      {}
+                    </select>
+                  </th>
+                    <th className="bg-success-subtle" scope="table">
                     <label className="">
                       {" "}
                       <input
                         type="checkbox"
                         className="form-check-input mb-2"
-                        onChange={handleSortByTimeToClose}
+                        onChange={()=>handleFilterChange("timeToClose", "minToHigh" )}
                       />{" "}
                       Time to Close
                     </label>
@@ -161,9 +147,9 @@ function LeadsList() {
                 </tr>
               </thead>
               <tbody className="table-group-divider border rounded">
-                {filterLeadsMapping &&
-                  filterLeadsMapping.length > 0 &&
-                  filterLeadsMapping?.map((lead) => (
+                {filters ?
+                  filters.length > 0 &&
+                  filters?.map((lead) => (
                     <tr key={lead._id}>
                       <th scope="row">
                         <span>{lead.name}</span>
@@ -191,7 +177,35 @@ function LeadsList() {
                         <span>{lead.tags.join(", ")}</span>{" "}
                       </td>{" "}
                     </tr>
-                  ))}
+                  )) : leads?.map((lead) => (
+                    <tr key={lead._id}>
+                      <th scope="row">
+                        <span>{lead.name}</span>
+                      </th>
+                      <td>
+                        {" "}
+                        <span>{lead.status}</span>
+                      </td>
+                      <td>
+                        {" "}
+                        <span>
+                          {lead.salesAgent.name} ({lead.salesAgent.email})
+                        </span>
+                      </td>
+                      <td>
+                        {" "}
+                        <span>{lead.source}</span>
+                      </td>
+                      <td>
+                        {" "}
+                        <span>{lead.priority}</span>
+                      </td>
+                      <td>
+                        {" "}
+                        <span>{lead.tags.join(", ")}</span>{" "}
+                      </td>{" "}
+                    </tr>
+                  )) }
               </tbody>
             </table>
           </div>

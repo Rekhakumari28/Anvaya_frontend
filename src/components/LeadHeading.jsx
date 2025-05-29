@@ -43,9 +43,13 @@ function LeadHeading({ leadData, agent }) {
       ) : location.pathname.includes("/leadsByStatus/") ? (
         <div className={myClassName}>Leads by Status  <ToggleButton /></div>
       ) : location.pathname === "/settings" ? (
-        <div className={myClassName}>Anvaya CRM Settings  <ToggleButton /></div>
-      ) : (
-        <div className={myClassName}>{agent}  <ToggleButton /></div>
+        <div className={myClassName}>Anvaya CRM Settings <ToggleButton /></div>
+      )  : location.pathname === "/addLead" ? (
+        <div className={myClassName}>Add Lead<ToggleButton /></div>
+      ): location.pathname.includes("/addLead/")  ? (
+        <div className={myClassName}>Update Lead<ToggleButton /></div>
+      ): (
+        <div className={myClassName}>Leads by Sales Agent <ToggleButton /></div>
       )}
     </>
   );

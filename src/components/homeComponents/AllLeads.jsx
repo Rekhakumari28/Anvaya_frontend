@@ -6,6 +6,7 @@ import { fetchLeads } from "../../features/leadsSlice";
 export default function AllLeads() {
   const dispatch = useDispatch();
   const { leads, status, error } = useSelector((state) => {
+    
     return state.leads;
   });
   useEffect(() => {

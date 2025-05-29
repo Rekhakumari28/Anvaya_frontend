@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { addSalesAgentAsync } from "../../features/salesAgentSlice";
 import { useDispatch } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
 function AddAgent() {
   const [agentName, setAgentName] = useState("");
   const [email, setEmail] = useState("");
 
-const dispatch = useDispatch()  
+  const dispatch = useDispatch();
 
   const handleSubmitAgentForm = (event) => {
     event.preventDefault();
@@ -18,20 +19,22 @@ const dispatch = useDispatch()
     };
     if (dotIndex > atIndex && atIndex > 0) {
       dispatch(addSalesAgentAsync(agentData));
-      console.log(agentData)
+     
+      toast.success("Agent added");
+     Navigate("/sales")
     } else {
       console.log("Email is not valid");
     }
-  };  
+  };
 
   return (
     <div className="my-2 border rounded bg-success-subtle">
       <div className="p-4 m-2 ">
-        <h3 className="content-heading" >Add Sales Agent</h3>
+        <h3 className="content-heading">Add Sales Agent</h3>
         <div className="hr-gray ">
-        {" "}
-        <hr />
-      </div>
+          {" "}
+          <hr />
+        </div>
         <form onSubmit={handleSubmitAgentForm}>
           <p className="row">
             <span className="col-md-3 fw-normal fs-5">Agent Name</span>
@@ -55,8 +58,15 @@ const dispatch = useDispatch()
               />
             </span>
           </p>
-          <div className="row"> <div className="col-md-12"><button type="submit" className="btn btn-primary float-end" >Create Agent</button></div></div>
-          
+          <div className="row">
+            {" "}
+            <div className="col-md-12">
+              <button type="submit" className="btn btn-primary float-end">
+                Create Agent
+              </button>
+            </div>
+          </div>
+        <Toaster position="top-center" reverseOrder={false} />
         </form>
       </div>
     </div>
