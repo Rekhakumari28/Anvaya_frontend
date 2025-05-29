@@ -11,7 +11,7 @@ export const fetchLeads = createAsyncThunk("leads/fetchLeads", async () => {
       },
     });
     const data = response.data;
-    console.log(data, "response");
+ 
     return data;
   } catch (error) {
     console.log("Error", error);
@@ -127,7 +127,7 @@ export const leadSlice = createSlice({
     builder.addCase(addLeadAsync.fulfilled, (state, action) => {
       state.status = "Lead added successfully";
       const addedLead = action.payload;
-      console.log(addedLead, "addedLead");
+    
     });
     builder.addCase(addLeadAsync.rejected, (state, action) => {
       state.status = "error";
