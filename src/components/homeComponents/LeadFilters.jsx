@@ -16,7 +16,7 @@ export default function LeadFilters() {
   }, []);
 
   const handleFilterChange = (key, value) => {
-    setFilterdValue(value);
+     setFilterdValue(value)
     const params = new URLSearchParams({ [key]: value });
     dispatch(fetchLeadsByQuery(params.toString()));
   };

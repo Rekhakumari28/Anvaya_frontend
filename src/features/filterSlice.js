@@ -4,18 +4,10 @@ import { Anvaya_CRM_URL } from "./userSlice";
 
 export const fetchLeadsByQuery = createAsyncThunk(
   "leads/fetchLeadsByQuery",
-  async ({salesAgent, status, source, prioritySort, timeToCloseSort}) => {
-    const queryParams = new URLSearchParams();
-
-    if (salesAgent) queryParams.append("salesAgent", salesAgent);
-    if (status) queryParams.append("status", status);
-    if (tags) queryParams.append("tags", tags)
-    if (source) queryParams.append("source", source)
-    if (prioritySort) queryParams.append("prioritySort", prioritySort)
-    if (timeToCloseSort) queryParams.append("timeToCloseSort", timeToCloseSort)    
-
+  async (query) => {
+    
     const token = localStorage.getItem("token");
-    const response = await axios.get(`${Anvaya_CRM_URL}/api/leads?${queryParams.toString()}`, {
+    const response = await axios.get(`${Anvaya_CRM_URL}/api/leads?${query}`, {
       headers: {
         Authorization: `${token}`,
       },

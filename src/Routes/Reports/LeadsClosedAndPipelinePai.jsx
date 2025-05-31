@@ -9,9 +9,11 @@ ChartJs.register(Tooltip, Legend, ArcElement);
 export function PieChart() {
   const dispatch = useDispatch();
   const lastWeek = useSelector((state) => {
-    console.log(state.report)
+    console.log(state.report, "report")
     return state.report;
   });
+
+
   const {reportPipeline, status, error} = useSelector((state) => {
     return state.report;
   }); 

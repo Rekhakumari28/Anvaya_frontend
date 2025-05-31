@@ -42,7 +42,7 @@ export default function AllLeads() {
 export function AddLead() {
   return (
    
-      <Link to="/addLead" className="btn btn-primary float-end">
+      <Link to="/addLead" className="btn btn-primary float-end mx-1">
         Add Lead 
       </Link>
     
