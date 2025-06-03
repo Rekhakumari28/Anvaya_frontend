@@ -57,7 +57,7 @@ function AddLeadForm() {
   const dispatch = useDispatch();
   const { leads } = useSelector((state) => state.leads);
   const { agents } = useSelector((state) => state.salesAgent);
-  const { tags } = useSelector((state) => state.leads);
+  const { tags } = useSelector((state) => state.tags);
   const navigate = useNavigate();
 
   const leadExist =
