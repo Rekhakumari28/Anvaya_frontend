@@ -24,7 +24,7 @@ export const registerUserAsync = createAsyncThunk(
   "users/registerUserAsync",
   async ({name, email, password}) => {
     const response = await axios.post(
-      `/api/users/register`,
+      `${Anvaya_CRM_URL}/api/users/register`,
      {name, email, password}
     );
     const data = response.data;
